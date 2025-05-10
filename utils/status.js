@@ -1,0 +1,3 @@
+const ArticleStatus = {
+    incomplete : "Incomplete"
+}
