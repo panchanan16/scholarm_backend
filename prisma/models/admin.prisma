@@ -1,0 +1,5 @@
+model SuperAdmin {
+  admin_id    Int    @id @default(autoincrement())
+  admin_email String @unique
+  admin_name  String
+}

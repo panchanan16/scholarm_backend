@@ -1,0 +1,125 @@
+enum ArticleStatus {
+  incomplete
+  newsubmission
+  inpress
+  editorinvited
+  needtoassigneditor
+  needtoassignreviewer
+  underreview
+  decisioninprocess
+  accepted
+  rejected
+  senttoauthor
+  noreviewcompleted
+  onereviewcompleted
+  tworeviewcompleted
+  threereviewcompleted
+  fourormorereviewcompleted
+  revisiondue
+}
+
+model IntoArticle {
+  intro_id             Int                    @id @default(autoincrement())
+  type                 String
+  title                String                 @db.VarChar(500)
+  abstract             String                 @db.Text
+  keywords             String                 @db.VarChar(500)
+  sub_class            String                 @db.VarChar(200)
+  pages                Int?
+  belong_to            String                 @db.VarChar(200)
+  article_status       ArticleStatus          @default(incomplete)
+  main_author          Int
+  mainAuthor           Author                 @relation(fields: [main_author], references: [author_id])
+  articleAuthors       ArticleAuthor[]
+  ArticleAddedReviewer ArticleAddedReviewer[]
+  ArticleDetails       ArticleDetails[]
+  AssignEditor         AssignEditor[]
+  AssignReviewer       AssignReviewer[]
+  RevisionRound        RevisionRound[]
+  RevisionEditor       RevisionEditor[]
+
+  @@map("into_article")
+}
+
+model ArticleDetails {
+  article_id        Int         @id
+  cover_letter      String      @db.MediumText
+  cover_letter_file String?     @db.VarChar(500)
+  isFunding         String      @db.Text
+  isMaterial        Boolean?
+  materialFile      String?     @db.VarChar(500)
+  isCoding          Boolean?
+  codeFile          String?     @db.VarChar(500)
+  isData            Boolean?
+  dataFile          String?     @db.VarChar(500)
+  isHuman           String?     @db.VarChar(500)
+  isBoradApproval   String?     @db.VarChar(50)
+  approvalDetails   String?     @db.Text
+  manuscript_file   String?     @db.VarChar(500)
+  Article           IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+
+  @@map("article_details")
+}
+
+model ArticleAuthor {
+  article_id Int
+  author_id  Int
+  status     String?     @db.VarChar(100)
+  article    IntoArticle @relation(fields: [article_id], references: [intro_id])
+  author     Author      @relation(fields: [author_id], references: [author_id])
+
+  @@id([article_id, author_id])
+  @@map("article_authors")
+}
+
+model ArticleAddedReviewer {
+  article_id    Int
+  reviewer_id   Int
+  reviewer_type String      @db.VarChar(200)
+  articleId     IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+  reviewerId    Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
+
+  @@id([article_id, reviewer_id])
+  @@map("author_added_reviewer")
+}
+
+// Assigned Editor
+enum Decision {
+  accept
+  reject
+  MinorRevision @map("minor revision")
+  MajorRevision @map("major revision")
+}
+
+model AssignEditor {
+  editor_id     Int
+  article_id    Int
+  is_accepted   Boolean  @default(false)
+  is_completed  Boolean  @default(false)
+  comments      String?  @db.Text
+  editor_file   String?  @db.VarChar(500)
+  main_decision Decision
+
+  editor  Editor      @relation(fields: [editor_id], references: [editor_id])
+  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+
+  @@id([editor_id, article_id])
+  @@map("assign_editor")
+}
+
+// Assigned Reviewer 
+model AssignReviewer {
+  reviewer_id    Int
+  article_id     Int
+  is_accepted    Boolean @default(false)
+  is_completed   Boolean @default(false)
+  editor_comment String? @db.Text
+  comment        String? @db.Text
+  attach_file    String? @db.VarChar(500)
+
+  reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id])
+  article  IntoArticle @relation(fields: [article_id], references: [intro_id])
+
+  @@id([reviewer_id, article_id])
+  @@map("assign_reviewer")
+}

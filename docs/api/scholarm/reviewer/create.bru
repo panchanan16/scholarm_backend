@@ -1,0 +1,20 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scholarmEntity}}/reviewer/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "reviewer_name": "Elias Ahmed",
+    "reviewer_email": "elias@gmail.com",
+    "reviewer_designation": "developer",
+    "is_active": true
+  }
+}

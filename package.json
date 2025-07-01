@@ -2,24 +2,45 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+  "prisma": {
+    "schema": "./prisma"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && tsc-alias",
+    "start": "node dist/app.js",
+    "dev": "nodemon app.ts",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
+    "format": "prisma format",
+    "db:reset": "prisma migrate reset"
+  },
+  "_moduleAliases": {
+    "@": "."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^6.9.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "glob": "^11.0.3",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
     "mysql2": "^3.14.0",
-    "sequelize": "^6.37.7",
+    "passport": "^0.7.0",
+    "passport-openidconnect": "^0.1.2",
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.6.2"
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/multer": "^1.4.13",
+    "@types/node": "^22.15.30",
+    "prisma": "^6.9.0"
   }
 }

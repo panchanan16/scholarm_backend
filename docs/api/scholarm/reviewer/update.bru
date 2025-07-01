@@ -1,0 +1,24 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{scholarmEntity}}/reviewer/update?reviewer_id=4
+  body: json
+  auth: inherit
+}
+
+params:query {
+  reviewer_id: 4
+}
+
+body:json {
+  {
+    "reviewer_name": "Mintu Ahmed",
+    "reviewer_email": "nasim@gmail.com",
+    "reviewer_designation": "developer",
+    "is_active": true
+  }
+}

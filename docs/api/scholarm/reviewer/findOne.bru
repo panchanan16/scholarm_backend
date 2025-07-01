@@ -1,0 +1,15 @@
+meta {
+  name: findOne
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{scholarmEntity}}/reviewer/readOne?reviewer_id=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  reviewer_id: 1
+}

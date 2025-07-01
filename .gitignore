@@ -60,3 +60,5 @@ temp/
 # Logs and output
 output.log
 debug.log
+
+/generated/prisma

@@ -1,0 +1,19 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scholarmEntity}}/author/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "author_email": "panch@example.com",
+    "author_name": "Panchanan Deka",
+    "author_designation": "Content Writer"
+  }
+}

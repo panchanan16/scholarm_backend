@@ -1,0 +1,26 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scholarmEntity}}/introarticle/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "type": "Research Article",
+    "title": "The Impact of AI on Healthcare",
+    "abstract": "This paper explores the transformative role of AI in healthcare applications, including diagnostics, patient monitoring, and treatment planning.",
+    "keywords": "AI, healthcare, diagnostics, machine learning",
+    "sub_class": "Medical Technology",
+    "pages": 12,
+    "belong_to": "Journal of Health Sciences",
+    "article_status": "incomplete",
+    "main_author": 3
+  }
+  
+}

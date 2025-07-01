@@ -1,0 +1,25 @@
+model RevisionRound {
+  rev_id       Int @id @default(autoincrement())
+  article_id   Int
+  round_number Int
+
+  article         IntoArticle      @relation(fields: [article_id], references: [intro_id])
+  revisionEditors RevisionEditor[]
+
+  @@map("revision_round")
+}
+
+model RevisionEditor {
+  rev_id       Int
+  editor_id    Int
+  article_id   Int
+  is_accepted  Boolean @default(false)
+  is_completed Boolean @default(false)
+
+  revision RevisionRound @relation(fields: [rev_id], references: [rev_id])
+  editor   Editor        @relation(fields: [editor_id], references: [editor_id])
+  article  IntoArticle   @relation(fields: [article_id], references: [intro_id])
+
+  @@id([editor_id, rev_id])
+  @@map("revision_editor")
+}
