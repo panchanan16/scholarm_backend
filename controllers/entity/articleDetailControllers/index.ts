@@ -15,8 +15,8 @@ class ArticleDetailControllers {
   // Add your methods here
   static create: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
+      const article_id = Number(req.body.article_id);
       const {
-        article_id,
         cover_letter,
         cover_letter_file_link,
         isFunding,
@@ -30,6 +30,10 @@ class ArticleDetailControllers {
         isBoradApproval,
         approvalDetails,
       } = req.body;
+
+      const is_Material: boolean = isMaterial === "true" ? true : false;
+       const is_coding: boolean = isCoding === "true" ? true : false;
+        const is_Data: boolean = isData === "true" ? true : false;
 
       const cover_letter_file =
         req.file ||
@@ -66,11 +70,11 @@ class ArticleDetailControllers {
           cover_letter,
           cover_letter_file,
           isFunding,
-          isMaterial,
+          isMaterial: is_Material,
           materialFile,
-          isCoding,
+          isCoding: is_coding,
           codeFile,
-          isData,
+          isData : is_Data,
           dataFile,
           isHuman,
           isBoradApproval,
@@ -191,11 +195,11 @@ class ArticleDetailControllers {
           cover_letter,
           cover_letter_file,
           isFunding,
-          isMaterial,
+          // isMaterial,
           materialFile,
-          isCoding,
+          // isCoding,
           codeFile,
-          isData,
+          // isData,
           dataFile,
           isHuman,
           isBoradApproval,

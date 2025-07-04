@@ -6,13 +6,13 @@ export interface ReqBody extends FileRequest {
     cover_letter_file?: string;
     cover_letter_file_link?: string;
     isFunding: string;
-    isMaterial?: boolean;
+    isMaterial?: boolean | string;
     material_file_link?: string;
     materialFile?: string;
-    isCoding?: boolean;
+    isCoding?: boolean | string;
     code_file_link?: string;
     codeFile?: string;
-    isData?: boolean;
+    isData?: boolean | string;
     data_file_link?: string;
     dataFile?: string;
     isHuman?: string;
