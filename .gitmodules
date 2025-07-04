@@ -1,0 +1,3 @@
+[submodule "docs/apiDocs"]
+	path = docs/apiDocs
+	url = https://github.com/panchanan16/scholarm_API.git
