@@ -1,7 +1,17 @@
 import { prisma } from "@/app";
 import { ReqBody } from "./types";
+import { FilekeyType } from "@/routes/type";
 
 class ArticleDetailControllers {
+  static fileKeys: FilekeyType = {
+    keys: [
+      { name: "cover_letter_file" },
+      { name: "materialFile" },
+      { name: "codeFile" },
+      { name: "dataFile" },
+    ],
+    folder: "articleFiles",
+  };
   // Add your methods here
   static create: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
@@ -21,10 +31,34 @@ class ArticleDetailControllers {
         approvalDetails,
       } = req.body;
 
-      const cover_letter_file = req.file || req.files && req.multiFieldsObject && req.multiFieldsObject['cover_letter_file'] ? req.multiFieldsObject?.['cover_letter_file'][0] : cover_letter_file_link;
-      const materialFile = req.file || req.files && req.multiFieldsObject && req.multiFieldsObject['materialFile'] ? req.multiFieldsObject?.['materialFile'][0] : material_file_link;
-      const codeFile = req.file || req.files && req.multiFieldsObject && req.multiFieldsObject['codeFile'] ? req.multiFieldsObject?.['codeFile'][0] : code_file_link;
-      const dataFile = req.file || req.files && req.multiFieldsObject && req.multiFieldsObject['dataFile'] ? req.multiFieldsObject?.['dataFile'][0] : data_file_link;
+      const cover_letter_file =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["cover_letter_file"])
+          ? req.multiFieldsObject?.["cover_letter_file"][0]
+          : cover_letter_file_link;
+      const materialFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["materialFile"])
+          ? req.multiFieldsObject?.["materialFile"][0]
+          : material_file_link;
+      const codeFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["codeFile"])
+          ? req.multiFieldsObject?.["codeFile"][0]
+          : code_file_link;
+      const dataFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["dataFile"])
+          ? req.multiFieldsObject?.["dataFile"][0]
+          : data_file_link;
 
       const articleDetail = await prisma.articleDetails.create({
         data: {
@@ -59,7 +93,7 @@ class ArticleDetailControllers {
     }
   };
 
-  static readAll: MyRequestHandlerFn<ReqBody> = async (req, res) => {
+  static findAll: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
       const articleDetails = await prisma.articleDetails.findMany();
       res.status(200).json({
@@ -77,7 +111,7 @@ class ArticleDetailControllers {
     }
   };
 
-  static readOne: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+  static findOne: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
       const { article_id } = req.query;
       const articleDetail = await prisma.articleDetails.findUnique({
@@ -106,11 +140,67 @@ class ArticleDetailControllers {
 
   static update: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { article_id } = req.query;
-      const data = req.body;
+      const {
+        article_id,
+        cover_letter,
+        cover_letter_file_link,
+        isFunding,
+        isMaterial,
+        material_file_link,
+        isCoding,
+        code_file_link,
+        isData,
+        data_file_link,
+        isHuman,
+        isBoradApproval,
+        approvalDetails,
+      } = req.body;
+
+      const cover_letter_file =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["cover_letter_file"])
+          ? req.multiFieldsObject?.["cover_letter_file"][0]
+          : cover_letter_file_link;
+      const materialFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["materialFile"])
+          ? req.multiFieldsObject?.["materialFile"][0]
+          : material_file_link;
+      const codeFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["codeFile"])
+          ? req.multiFieldsObject?.["codeFile"][0]
+          : code_file_link;
+      const dataFile =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["dataFile"])
+          ? req.multiFieldsObject?.["dataFile"][0]
+          : data_file_link;
+
       const updatedArticleDetail = await prisma.articleDetails.update({
         where: { article_id: Number(article_id) },
-        data,
+        data: {
+          cover_letter,
+          cover_letter_file,
+          isFunding,
+          isMaterial,
+          materialFile,
+          isCoding,
+          codeFile,
+          isData,
+          dataFile,
+          isHuman,
+          isBoradApproval,
+          approvalDetails,
+        },
       });
       res.status(200).json({
         status: true,

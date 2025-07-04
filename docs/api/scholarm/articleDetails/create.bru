@@ -1,0 +1,34 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{scholarmEntity}}/articleDetail/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "article_id" : 1,
+    "cover_letter": "This is the cover letter content.",
+    "cover_letter_file": "",
+    "cover_letter_file_link": "https://example.com/files/cover_letter.pdf",
+    "isFunding": "No",
+    "isMaterial": true,
+    "material_file_link": "https://example.com/files/material.pdf",
+    "materialFile": "",
+    "isCoding": true,
+    "code_file_link": "https://example.com/files/code.zip",
+    "codeFile": "",
+    "isData": true,
+    "data_file_link": "https://example.com/files/data.csv",
+    "dataFile": "",
+    "isHuman": "No",
+    "isBoradApproval": "No",
+    "approvalDetails": "This approved xyz board"
+  }
+  
+}
