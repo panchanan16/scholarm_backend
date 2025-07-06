@@ -31,9 +31,9 @@ class ArticleDetailControllers {
         approvalDetails,
       } = req.body;
 
-      const is_Material: boolean = isMaterial === "true" ? true : false;
-       const is_coding: boolean = isCoding === "true" ? true : false;
-        const is_Data: boolean = isData === "true" ? true : false;
+      const is_Material: boolean = isMaterial === "true" || isMaterial === true ? true : false;
+      const is_coding: boolean = isCoding === "true" || isCoding === true ? true : false;
+      const is_Data: boolean = isData === "true" || isData === true ? true : false;
 
       const cover_letter_file =
         req.file ||
@@ -160,6 +160,11 @@ class ArticleDetailControllers {
         approvalDetails,
       } = req.body;
 
+
+      const is_Material: boolean = isMaterial === "true" || isMaterial === true ? true : false;
+      const is_coding: boolean = isCoding === "true" || isCoding === true ? true : false;
+      const is_Data: boolean = isData === "true" || isData === true ? true : false;
+
       const cover_letter_file =
         req.file ||
         (req.files &&
@@ -195,11 +200,11 @@ class ArticleDetailControllers {
           cover_letter,
           cover_letter_file,
           isFunding,
-          // isMaterial,
+          isMaterial: is_Material,
           materialFile,
-          // isCoding,
+          isCoding: is_coding,
           codeFile,
-          // isData,
+          isData : is_Data,
           dataFile,
           isHuman,
           isBoradApproval,

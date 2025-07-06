@@ -2,5 +2,6 @@ export interface Responsebody {
   status: boolean,
   data?: any,
   message: String,
-  error?: any
+  error?: any;
+  dummy?: any;
 }

@@ -19,19 +19,19 @@ enum ArticleStatus {
 }
 
 model IntoArticle {
-  intro_id             Int                    @id @default(autoincrement())
+  intro_id             Int                   @id @default(autoincrement())
   type                 String
-  title                String                 @db.VarChar(500)
-  abstract             String                 @db.Text
-  keywords             String                 @db.VarChar(500)
-  sub_class            String                 @db.VarChar(200)
+  title                String                @db.VarChar(500)
+  abstract             String                @db.Text
+  keywords             String                @db.VarChar(500)
+  sub_class            String                @db.VarChar(200)
   pages                Int?
-  belong_to            String                 @db.VarChar(200)
-  article_status       ArticleStatus          @default(incomplete)
+  belong_to            String                @db.VarChar(200)
+  article_status       ArticleStatus         @default(incomplete)
   main_author          Int
-  mainAuthor           Author                 @relation(fields: [main_author], references: [author_id])
+  mainAuthor           Author                @relation(fields: [main_author], references: [author_id])
   articleAuthors       ArticleAuthor[]
-  ArticleAddedReviewer ArticleAddedReviewer[]
+  ArticleAddedReviewer AuthorAddedReviewer[]
   ArticleDetails       ArticleDetails[]
   AssignEditor         AssignEditor[]
   AssignReviewer       AssignReviewer[]
@@ -72,7 +72,7 @@ model ArticleAuthor {
   @@map("article_authors")
 }
 
-model ArticleAddedReviewer {
+model AuthorAddedReviewer {
   article_id    Int
   reviewer_id   Int
   reviewer_type String      @db.VarChar(200)
@@ -98,7 +98,7 @@ model AssignEditor {
   is_completed  Boolean  @default(false)
   comments      String?  @db.Text
   editor_file   String?  @db.VarChar(500)
-  main_decision Decision
+  main_decision Decision?
 
   editor  Editor      @relation(fields: [editor_id], references: [editor_id])
   article IntoArticle @relation(fields: [article_id], references: [intro_id])

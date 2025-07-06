@@ -7,3 +7,45 @@
 "Type Guards","typeof, instanceof, custom guards"
 "Modules & Organization","ES modules, namespaces, declaration files"
 "Tooling & Practices","tsconfig, integration, best practices, gradual migration"
+
+Category,Topics
+Basic Types,"Primitives, arrays, tuples, enums, literals"
+Object Types,"Interfaces, type aliases, classes"
+Functions,"Function types, overloads, advanced signatures"
+Advanced Types,"Unions, intersections, generics, conditional, mapped, utility types"
+Type Manipulation,"keyof, typeof, infer, type assertions"
+Type Guards,"typeof, instanceof, custom guards"
+Modules & Organization,"ES modules, namespaces, declaration files"
+Type Inference,"Implicit vs explicit types, contextual typing"
+Type Compatibility,"Structural typing, excess property checks, assignability"
+Declaration Merging,"Interface and namespace merging, function overloading"
+JSX & React,"JSX typing, props and state, default props, children typing"
+TypeScript with JavaScript,"JSDoc types, gradual migration, allowJs, checkJs"
+Configuration,"tsconfig.json, compiler options, strict mode"
+Working with Libraries,"Typings via DefinitelyTyped, using @types, custom declaration files"
+Error Handling & Debugging,"Type narrowing, strict null checks, type-safe error handling"
+Utility Types (Deep Dive),"Partial, Pick, Omit, Record, ReturnType, Parameters, etc."
+Namespaces vs Modules,"Differences, when to use, global vs modular code"
+DOM & Browser Types,"Typing events, document, window, browser APIs"
+TypeScript & Node.js,"Typing Node modules, fs, path, process, require, import"
+Decorators (Experimental),"Class, method, and property decorators"
+Performance Tips,"Compilation speed, large project scaling, type-only imports"
+Compiler API (Advanced),"Programmatic analysis, AST manipulation"
+Best Practices,"Safe typing, avoiding any, code organization, readability"
+Testing with TypeScript,"Typing tests, mocks, testing libraries integration (Jest, Vitest)"
+Linting & Formatting,"tslint (deprecated), eslint, prettier"
+Monorepos & TypeScript,"Project references, path mapping, build strategies"
+
+// Advanced signatures====
+
+| Feature                   | Purpose                                      |
+| ------------------------- | -------------------------------------------- |
+| Overloads                 | Define multiple valid call signatures        |
+| Generics                  | Reusable, type-safe functions                |
+| Rest Tuples               | Strict control over variadic arguments       |
+| Destructured Params       | Named arguments with type safety             |
+| Function Aliases          | Reuse and compose function signatures        |
+| Conditional Return        | Return type depends on input type            |
+| `this` typing             | Type-safe method context                     |
+| Call/Construct Signatures | Advanced interfaces for libraries, factories |
+
