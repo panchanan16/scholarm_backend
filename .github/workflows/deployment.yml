@@ -1,6 +1,6 @@
 name: Deploying Our scholarm app to the vedicfoundation server as a development phase
 
-run_name: Deploy to Vedic Foundation Server
+run-name: Deploy to Vedic Foundation Server
 
 on:
   workflow_dispatch:
