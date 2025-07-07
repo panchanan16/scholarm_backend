@@ -1,0 +1,19 @@
+name: Deploying Our scholarm app to the vedicfoundation server as a development phase
+
+run_name: Deploy to Vedic Foundation Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: Here you should provide the username
+        required: true
+        type: string
+jobs:
+  display_input:
+    name: To display input
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Printing the outputs
+        run: echo The username is ${{ inputs.username }}
