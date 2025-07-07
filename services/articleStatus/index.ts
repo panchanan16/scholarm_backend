@@ -12,41 +12,40 @@ type statusType = {
 
 class ArticleStatusController {
   static updateStatus = async (
-    currentStatus: currentStatusType,
+    // currentStatus: currentStatusType,
     updatedStatus: updatedStatusType,
-    articleId: number 
+    articleId: number
+    // isChecked: boolean
   ): Promise<statusType | null> => {
+    // const curStatus: statusType = await prisma.intoArticle.findUnique({
+    //   select: {
+    //     intro_id: true,
+    //     article_status: true,
+    //   },
+    //   where: {
+    //     intro_id: articleId,
+    //   },
+    // });
 
-    const curStatus: statusType = await prisma.intoArticle.findUnique({
-      select: {
-        intro_id: true,
-        article_status: true,
-      },
-      where: {
-        intro_id: articleId,
-      },
-    });
-
-    if (curStatus && currentStatus) {
-      if (currentStatus.includes(curStatus.article_status)) {
-        const isUpdatedStatus = await prisma.intoArticle.update({
-          where: {
-            intro_id: curStatus.intro_id,
-          },
-          data: {
-            article_status: updatedStatus,
-          },
-        });
-        return isUpdatedStatus;
-      }
-    }
+    // if (curStatus && currentStatus) {
+    //   if (currentStatus.includes(curStatus.article_status)) {
+    //     const isUpdatedStatus = await prisma.intoArticle.update({
+    //       where: {
+    //         intro_id: curStatus.intro_id,
+    //       },
+    //       data: {
+    //         article_status: updatedStatus,
+    //       },
+    //     });
+    //     return isUpdatedStatus;
+    //   }
+    // }
 
     const isNewStatus = await prisma.intoArticle.update({
       where: {
         intro_id: articleId,
       },
       data: {
-        intro_id: articleId,
         article_status: updatedStatus,
       },
     });

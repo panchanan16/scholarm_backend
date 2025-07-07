@@ -27,7 +27,6 @@ class AuthorController {
   };
 
   static findAll: MyRequestHandlerFn<ReqBody> = async (req, res) => {
-    console.log("I am findAll executed...")
     try {
       const authors = await prisma.author.findMany();
       res.status(200).json({

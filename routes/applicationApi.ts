@@ -1,5 +1,5 @@
 import { Router } from "express";
-import entityControllers from "@/controllers/entity/index";
+import entityControllers from "@/controllers/crud/index";
 import { uploadMultipleFields } from "@/middleware/fileUpload";
 import { FilekeyType, MiddleWare } from "./type";
 

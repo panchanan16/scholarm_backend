@@ -72,10 +72,15 @@ model ArticleAuthor {
   @@map("article_authors")
 }
 
+enum reviewerType {
+  suggested
+  oppose
+}
+
 model AuthorAddedReviewer {
   article_id    Int
   reviewer_id   Int
-  reviewer_type String      @db.VarChar(200)
+  reviewer_type reviewerType     
   articleId     IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
   reviewerId    Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
 
