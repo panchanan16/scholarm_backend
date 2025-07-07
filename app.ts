@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/client";
 import appRoute from "@/routes/applicationApi";
 
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3500;
 
 export const prisma = new PrismaClient();
 
