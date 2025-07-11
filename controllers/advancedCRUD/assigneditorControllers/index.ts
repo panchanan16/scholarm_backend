@@ -1,34 +1,28 @@
 import { prisma } from "@/app";
-import { ReqBody } from "./types";
 import { SendEmail } from "@/services/email";
+import { ReqBody } from "./types";
+import { updateEditorResponseToAssignedTask } from "@/services/transactions/editorResponse";
 
 class AssignEditorControllers {
-  static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
+  static handleStatus: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { editor_id, article_id, editor_email } = req.body;
+      const { article_id, editor_id, status } = req.body;
+      
+      const isUpdated = await updateEditorResponseToAssignedTask(article_id, editor_id, status);
 
-      const isAssigned = await prisma.assignEditor.create({
-        data: {
-          editor_id,
-          article_id,
-        },
-      });
-
-      if (isAssigned && editor_email) {
-        SendEmail(editor_email);
-      }
+      console.log(isUpdated)
 
       res.status(200).json({
         status: true,
-        data: isAssigned,
-        message: "Editor assigned successfully!",
+        data: isUpdated,
+        message: `Invitation ${status} successfully!`,
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       res.status(500).json({
         status: false,
         error,
-        message: "Editor assigned failed",
+        message: "Failed to update invitation status",
       });
     }
   };

@@ -62,7 +62,7 @@ class AuthorController {
     }
   };
 
-    static remove: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+  static remove: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
       const authors = await prisma.author.delete({
         where: {

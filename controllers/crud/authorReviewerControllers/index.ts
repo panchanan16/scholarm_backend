@@ -26,7 +26,7 @@ class AuthorReviewerController {
     try {
       const authorAddedReviewers = await prisma.authorAddedReviewer.findMany({
         include: {
-          reviewerId: {
+          reviewerDetails: {
             select: {
               reviewer_name: true,
               reviewer_email: true,

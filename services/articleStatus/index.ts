@@ -49,7 +49,7 @@ class ArticleStatusController {
         article_status: updatedStatus,
       },
     });
-
+    
     return isNewStatus;
   };
 }

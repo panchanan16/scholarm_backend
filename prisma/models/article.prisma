@@ -5,6 +5,9 @@ enum ArticleStatus {
   editorinvited
   needtoassigneditor
   needtoassignreviewer
+  reviewerinvited
+  submissionneedadditionalreviewers
+  submissionwithrequiredreviewerscompleted
   underreview
   decisioninprocess
   accepted
@@ -78,11 +81,11 @@ enum reviewerType {
 }
 
 model AuthorAddedReviewer {
-  article_id    Int
-  reviewer_id   Int
-  reviewer_type reviewerType     
-  articleId     IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
-  reviewerId    Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
+  article_id      Int
+  reviewer_id     Int
+  reviewer_type   reviewerType
+  articleId       IntoArticle  @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+  reviewerDetails Reviewer     @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
 
   @@id([article_id, reviewer_id])
   @@map("author_added_reviewer")
@@ -96,13 +99,20 @@ enum Decision {
   MajorRevision @map("major revision")
 }
 
+enum InviteStatus {
+  invited
+  accepted
+  rejected
+}
+
 model AssignEditor {
   editor_id     Int
   article_id    Int
-  is_accepted   Boolean  @default(false)
-  is_completed  Boolean  @default(false)
-  comments      String?  @db.Text
-  editor_file   String?  @db.VarChar(500)
+  no_days       Int?
+  is_accepted   InviteStatus @default(invited)
+  is_completed  Boolean      @default(false)
+  comments      String?      @db.Text
+  editor_file   String?      @db.VarChar(500)
   main_decision Decision?
 
   editor  Editor      @relation(fields: [editor_id], references: [editor_id])
@@ -114,13 +124,15 @@ model AssignEditor {
 
 // Assigned Reviewer 
 model AssignReviewer {
-  reviewer_id    Int
-  article_id     Int
-  is_accepted    Boolean @default(false)
-  is_completed   Boolean @default(false)
-  editor_comment String? @db.Text
-  comment        String? @db.Text
-  attach_file    String? @db.VarChar(500)
+  reviewer_id      Int
+  article_id       Int
+  is_accepted      InviteStatus  @default(invited)
+  is_completed     Boolean  @default(false)
+  is_under_scope   Boolean?
+  is_need_revision Boolean?
+  editor_comment   String?  @db.Text
+  comment          String?  @db.Text
+  attach_file      String?  @db.VarChar(500)
 
   reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id])
   article  IntoArticle @relation(fields: [article_id], references: [intro_id])
