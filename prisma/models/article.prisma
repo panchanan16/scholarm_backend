@@ -114,6 +114,9 @@ model AssignEditor {
   comments      String?      @db.Text
   editor_file   String?      @db.VarChar(500)
   main_decision Decision?
+  attacth_file  String?      @db.VarChar(500)
+  reminder_date String?
+  to_show       String?      @db.VarChar(200)
 
   editor  Editor      @relation(fields: [editor_id], references: [editor_id])
   article IntoArticle @relation(fields: [article_id], references: [intro_id])
@@ -126,13 +129,15 @@ model AssignEditor {
 model AssignReviewer {
   reviewer_id      Int
   article_id       Int
-  is_accepted      InviteStatus  @default(invited)
-  is_completed     Boolean  @default(false)
+  is_accepted      InviteStatus @default(invited)
+  is_completed     Boolean      @default(false)
   is_under_scope   Boolean?
   is_need_revision Boolean?
-  editor_comment   String?  @db.Text
-  comment          String?  @db.Text
-  attach_file      String?  @db.VarChar(500)
+  editor_comment   String?      @db.Text
+  comment          String?      @db.Text
+  attach_file      String?      @db.VarChar(500)
+  reviewerDecision Decision?
+  reminder_date    String?
 
   reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id])
   article  IntoArticle @relation(fields: [article_id], references: [intro_id])

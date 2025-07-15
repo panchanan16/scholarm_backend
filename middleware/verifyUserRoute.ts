@@ -2,6 +2,7 @@ import passport from 'passport';
 
 export const authenticateJWT = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    console.log(req.user)
     if (err) {
       return res.status(500).json({
         status: false,

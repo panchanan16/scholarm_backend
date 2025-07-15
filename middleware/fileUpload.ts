@@ -88,10 +88,11 @@ const uploadMultipleFields = (
   return (req: MyRequestType, res: Response, next: NextFunction) => {
     // Validate fields parameter
     if (!Array.isArray(fields) || fields.length === 0) {
-      return res.status(400).json({
+      res.status(400).json({
         status: false,
         message: "Fields configuration is required for file upload",
       });
+      return;
     }
 
     // Use multer's fields method
