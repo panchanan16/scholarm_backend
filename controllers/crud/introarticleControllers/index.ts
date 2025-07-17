@@ -1,40 +1,20 @@
 import { prisma } from "@/app";
 import { IntroArticleInput } from "./types";
+import { InitiateArticleIntroSections } from "@/services/transactions/ArticleProcessCreation";
 
 class IntroArticleControllers {
   static create: MyRequestHandlerFn<IntroArticleInput> = async (req, res) => {
     try {
       const {
-        intro_id,
-        type,
-        title,
-        abstract,
-        keywords,
-        sub_class,
-        pages,
-        belong_to,
-        article_status,
-        main_author,
+        articleDetails,
+        sections
       } = req.body;
 
-      const admin = await prisma.intoArticle.create({
-        data: {
-          intro_id,
-          type,
-          title,
-          abstract,
-          keywords,
-          sub_class,
-          pages,
-          belong_to,
-          article_status,
-          main_author,
-        },
-      });
+      const InsertionResult = await InitiateArticleIntroSections(articleDetails, sections)
 
       res.status(200).json({
         status: true,
-        data: admin,
+        data: InsertionResult,
         message: "Article created successfully!",
       });
     } catch (error) {
@@ -88,7 +68,7 @@ class IntroArticleControllers {
           belong_to,
           article_status,
           main_author,
-        } = req.body;
+        } = req.body.articleDetails;
 
         const article = await prisma.intoArticle.update({
           where: { intro_id: id },

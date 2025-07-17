@@ -12,6 +12,7 @@ enum ArticleStatus {
   decisioninprocess
   accepted
   rejected
+  revise
   senttoauthor
   noreviewcompleted
   onereviewcompleted
@@ -22,24 +23,24 @@ enum ArticleStatus {
 }
 
 model IntoArticle {
-  intro_id             Int                   @id @default(autoincrement())
-  type                 String
-  title                String                @db.VarChar(500)
-  abstract             String                @db.Text
-  keywords             String                @db.VarChar(500)
-  sub_class            String                @db.VarChar(200)
-  pages                Int?
-  belong_to            String                @db.VarChar(200)
-  article_status       ArticleStatus         @default(incomplete)
-  main_author          Int
-  mainAuthor           Author                @relation(fields: [main_author], references: [author_id])
-  articleAuthors       ArticleAuthor[]
-  ArticleAddedReviewer AuthorAddedReviewer[]
-  ArticleDetails       ArticleDetails[]
-  AssignEditor         AssignEditor[]
-  AssignReviewer       AssignReviewer[]
-  RevisionRound        RevisionRound[]
-  RevisionEditor       RevisionEditor[]
+  intro_id       Int              @id @default(autoincrement())
+  case_number    String?          @unique
+  type           String
+  title          String           @db.VarChar(500)
+  abstract       String           @db.Text
+  keywords       String           @db.VarChar(500)
+  sub_class      String           @db.VarChar(200)
+  pages          Int?
+  belong_to      String           @db.VarChar(200)
+  article_status ArticleStatus    @default(incomplete)
+  main_author    Int
+  mainAuthor     Author           @relation(fields: [main_author], references: [author_id])
+  revision_round Int              @default(0)
+  articleAuthors ArticleAuthor[]
+  ArticleDetails ArticleDetails[]
+  AssignEditor   AssignEditor[]
+  AssignReviewer AssignReviewer[]
+  ArticleSection ArticleSection[]
 
   @@map("into_article")
 }
@@ -80,15 +81,13 @@ enum reviewerType {
   oppose
 }
 
-model AuthorAddedReviewer {
-  article_id      Int
-  reviewer_id     Int
-  reviewer_type   reviewerType
-  articleId       IntoArticle  @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
-  reviewerDetails Reviewer     @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
-
-  @@id([article_id, reviewer_id])
-  @@map("author_added_reviewer")
+// Artcile Section ---
+model ArticleSection {
+  section_id          Int         @id @default(autoincrement())
+  article_id          Int
+  section_title       String
+  Section_description String?     @db.MediumText
+  introArticle        IntoArticle @relation(fields: [article_id], references: [intro_id])
 }
 
 // Assigned Editor
@@ -129,6 +128,7 @@ model AssignEditor {
 model AssignReviewer {
   reviewer_id      Int
   article_id       Int
+  reviewer_type    reviewerType @default(suggested)
   is_accepted      InviteStatus @default(invited)
   is_completed     Boolean      @default(false)
   is_under_scope   Boolean?

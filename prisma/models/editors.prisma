@@ -1,8 +1,7 @@
 model Editor {
-  editor_id      Int              @id @default(autoincrement())
-  editor_name    String
-  editor_email   String           @unique
-  is_active      Boolean          @default(true)
-  AssignEditor   AssignEditor[]
-  RevisionEditor RevisionEditor[]
+  editor_id    Int            @id @default(autoincrement())
+  editor_name  String
+  editor_email String         @unique
+  is_active    Boolean        @default(true)
+  AssignEditor AssignEditor[]
 }

@@ -1,27 +1,27 @@
 model EmailTemplate {
-    template_id      Int                @id @default(autoincrement())
-    template_type    String             @db.VarChar(300)
-    template_name    String
-    template_for     String?            @db.VarChar(200)
-    is_active        Boolean            @default(true)
-    subject          String             @db.VarChar(500)
-    body             String             @db.MediumText
-    created_at       DateTime           @default(now())
-    ReminderTemplate ReminderTemplate[]
+  template_id      Int                @id @default(autoincrement())
+  template_type    String             @db.VarChar(300)
+  template_name    String
+  template_for     String?            @db.VarChar(200)
+  is_active        Boolean            @default(true)
+  subject          String             @db.VarChar(500)
+  body             String             @db.MediumText
+  created_at       DateTime           @default(now())
+  ReminderTemplate ReminderTemplate[]
 
-    @@map("email_template")
+  @@map("email_template")
 }
 
 model ReminderTemplate {
-    reminder_id Int     @id @default(autoincrement())
-    template_id Int
-    description String  @db.Text
-    is_active   Boolean @default(true)
-    sent_to     String? @db.VarChar(200)
-    based_on    Int?
-    timing      String? @db.VarChar(150)
+  reminder_id Int     @id @default(autoincrement())
+  template_id Int
+  description String  @db.Text
+  is_active   Boolean @default(true)
+  sent_to     String? @db.VarChar(200)
+  based_on    Int?
+  timing      String? @db.VarChar(150)
 
-    emailTemplate EmailTemplate @relation(fields: [template_id], references: [template_id])
+  emailTemplate EmailTemplate @relation(fields: [template_id], references: [template_id])
 
-    @@map("reminder+_template")
+  @@map("reminder+_template")
 }

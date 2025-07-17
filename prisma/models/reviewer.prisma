@@ -1,9 +1,8 @@
 model Reviewer {
-  reviewer_id          Int                   @id @default(autoincrement())
+  reviewer_id          Int              @id @default(autoincrement())
   reviewer_name        String
-  reviewer_email       String                @unique
+  reviewer_email       String           @unique
   reviewer_designation String?
-  is_active            Boolean               @default(true)
-  AuthorAddedReviewer  AuthorAddedReviewer[]
+  is_active            Boolean          @default(true)
   AssignReviewer       AssignReviewer[]
 }

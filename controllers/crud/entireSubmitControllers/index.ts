@@ -2,15 +2,14 @@ import { prisma } from "@/app";
 import { ReqBody } from "./types";
 import ArticleStatusController from "@/services/articleStatus";
 import { ArticleStatus } from "@prisma/client";
+import { FinalSubmissionOfJournal } from "@/services/transactions/entireSubmit";
 
 class ConfirmSubmitControllers {
   static create: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
-    const { article_id, authorsCount, keyWordsCount, reviewersCount } = req.body;
+    const { article_id, authorsCount, keyWordsCount, reviewersCount } =
+      req.body;
     try {
-      const isSubmitted = await ArticleStatusController.updateStatus(
-        ArticleStatus.newsubmission,
-        article_id
-      );
+      const isSubmitted = await FinalSubmissionOfJournal(article_id)
 
       res.status(200).json({
         status: true,
@@ -39,10 +38,27 @@ class ConfirmSubmitControllers {
               author: true,
             },
           },
-          ArticleAddedReviewer: {
-            include: {
-              reviewerDetails: true,
+          AssignReviewer: {
+            select: {
+              reviewer_id: true,
+              article_id: true,
+              reviewer_type: true,
+
+              reviewer: {
+                select: {
+                  reviewer_id: true,
+                  reviewer_name: true,
+                  reviewer_designation: true,
+                  reviewer_email: true,
+                },
+              },
             },
+          },
+          ArticleSection: {
+            select: {
+              section_id: true,
+              section_title: true
+            }
           },
         },
       });
