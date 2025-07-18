@@ -41,6 +41,7 @@ model IntoArticle {
   AssignEditor   AssignEditor[]
   AssignReviewer AssignReviewer[]
   ArticleSection ArticleSection[]
+  Reffences      Reffences[]
 
   @@map("into_article")
 }
@@ -68,6 +69,7 @@ model ArticleDetails {
 model ArticleAuthor {
   article_id Int
   author_id  Int
+  isMain     Boolean     @default(false)
   status     String?     @db.VarChar(100)
   article    IntoArticle @relation(fields: [article_id], references: [intro_id])
   author     Author      @relation(fields: [author_id], references: [author_id])
@@ -144,4 +146,38 @@ model AssignReviewer {
 
   @@id([reviewer_id, article_id])
   @@map("assign_reviewer")
+}
+
+model Reffences {
+  reffrence_id   Int     @id @default(autoincrement())
+  article_id     Int
+  reference_type String
+  authors        String? @db.Text
+  title          String?
+  source         String?
+  year           Int?
+  volume         Int?
+  issue          Int?
+  pages          String?
+  doi            String?
+  publisher      String?
+  issn           String?
+  url            String?
+  accessed       String?
+
+  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+
+  @@map("article_refferences")
+}
+
+model publishedArticle {
+  published_id Int    @id @default(autoincrement())
+  journal_name String
+  volume       Int
+  year         Int
+  issue        Int
+  title        String
+  abstract     String @db.Text
+
+  @@map("published_article")
 }

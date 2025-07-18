@@ -1,7 +1,5 @@
 import { prisma } from "@/app";
 import { ReqBody } from "./types";
-import ArticleStatusController from "@/services/articleStatus";
-import { ArticleStatus } from "@prisma/client";
 import { FinalSubmissionOfJournal } from "@/services/transactions/entireSubmit";
 
 class ConfirmSubmitControllers {
@@ -60,6 +58,7 @@ class ConfirmSubmitControllers {
               section_title: true
             }
           },
+          Reffences: true
         },
       });
 

@@ -1,0 +1,103 @@
+{
+  "types": [
+    {
+      "type": "journal-article",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "journal": "string",
+        "year": "integer",
+        "volume": "string",
+        "issue": "string",
+        "pages": "string",
+        "doi": "string",
+        "publisher": "string",
+        "issn": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "book",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "publisher": "string",
+        "year": "integer",
+        "edition": "string",
+        "isbn": "string",
+        "pages": "string",
+        "doi": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "book-chapter",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "book_title": "string",
+        "editors": ["string"],
+        "publisher": "string",
+        "year": "integer",
+        "edition": "string",
+        "chapter": "string",
+        "pages": "string",
+        "isbn": "string",
+        "doi": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "conference-paper",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "conference_name": "string",
+        "publisher": "string",
+        "year": "integer",
+        "location": "string",
+        "pages": "string",
+        "doi": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "thesis",
+      "fields": {
+        "author": "string",
+        "title": "string",
+        "type": "string",
+        "institution": "string",
+        "year": "integer",
+        "doi": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "report",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "institution": "string",
+        "year": "integer",
+        "report_number": "string",
+        "pages": "string",
+        "doi": "string",
+        "url": "string"
+      }
+    },
+    {
+      "type": "webpage",
+      "fields": {
+        "authors": ["string"],
+        "title": "string",
+        "website": "string",
+        "year": "integer",
+        "month": "string",
+        "day": "string",
+        "url": "string",
+        "accessed": "string"
+      }
+    }
+  ]
+}

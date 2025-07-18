@@ -68,7 +68,7 @@ class ArticleSectionControllers {
       console.log(error);
       res.status(500).json({
         status: false,
-        message: "Section failed to submit!",
+        message: "Section failed to retrive!",
       });
     }
   };
