@@ -1,7 +1,8 @@
 model Author {
   author_id          Int             @id @default(autoincrement())
   author_email       String          @unique
-  author_name        String
+  author_fname       String?
+  author_lname       String?
   author_designation String?
   IntoArticle        IntoArticle[]
   ArticleAuthor      ArticleAuthor[]

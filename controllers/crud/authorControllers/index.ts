@@ -4,11 +4,47 @@ import { ReqBody } from "./types";
 class AuthorController {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { author_email, author_name, author_designation } = req.body;
+      const { author_email, author_fname, author_lname, author_designation } =
+        req.body;
       const user = await prisma.author.create({
         data: {
           author_email,
-          author_name,
+          author_fname,
+          author_lname,
+          author_designation,
+        },
+      });
+
+      res.status(200).json({
+        status: true,
+        data: user,
+        message: "Author created successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ status: false, error, message: "Author creation failed" });
+    }
+  };
+
+  static update: MyRequestHandlerFn<ReqBody> = async (req, res) => {
+    try {
+      const {
+        author_id,
+        author_email,
+        author_fname,
+        author_lname,
+        author_designation,
+      } = req.body;
+      const user = await prisma.author.update({
+        where: {
+          author_id,
+        },
+        data: {
+          author_email,
+          author_fname,
+          author_lname,
           author_designation,
         },
       });

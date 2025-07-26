@@ -6,13 +6,7 @@ export async function InitiateArticleIntroSections(
 ) {
   const {
     type,
-    title,
-    abstract,
-    keywords,
     sub_class,
-    pages,
-    belong_to,
-    article_status,
     main_author,
   } = articleDetails;
 
@@ -21,13 +15,7 @@ export async function InitiateArticleIntroSections(
     const IntiatedArticle = await db.intoArticle.create({
       data: {
         type,
-        title,
-        abstract,
-        keywords,
         sub_class,
-        pages,
-        belong_to,
-        article_status,
         main_author,
       },
     });

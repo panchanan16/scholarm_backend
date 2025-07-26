@@ -35,7 +35,8 @@ class ArticleAuthorController {
           author: {
             select: {
               author_id: true,
-              author_name: true,
+              author_fname: true,
+              author_lname: true,
             },
           },
         },

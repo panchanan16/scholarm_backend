@@ -1,16 +1,34 @@
 import { prisma } from "@/app";
 import { IntroArticleInput } from "./types";
-import { InitiateArticleIntroSections } from "@/services/transactions/ArticleProcessCreation";
 
 class IntroArticleControllers {
   static create: MyRequestHandlerFn<IntroArticleInput> = async (req, res) => {
     try {
       const {
-        articleDetails,
-        sections
+        intro_id,
+        title,
+        abstract,
+        keywords,
+        pages,
+        belong_to,
+        article_status,
+        istick
       } = req.body;
 
-      const InsertionResult = await InitiateArticleIntroSections(articleDetails, sections)
+      const InsertionResult = await prisma.intoArticle.update({
+        where: {
+          intro_id,
+        },
+        data: {
+          title,          
+          abstract,
+          keywords,
+          pages,
+          belong_to,
+          article_status,
+          istick
+        },
+      });
 
       res.status(200).json({
         status: true,
@@ -53,53 +71,36 @@ class IntroArticleControllers {
     }
   };
 
-  static update: MyRequestHandlerFn<IntroArticleInput, IntroArticleInput> =
-    async (req, res) => {
-      try {
-        const id = Number(req.query.intro_id);
-        const {
-          intro_id,
-          type,
-          title,
-          abstract,
-          keywords,
-          sub_class,
-          pages,
-          belong_to,
-          article_status,
-          main_author,
-        } = req.body.articleDetails;
 
-        const article = await prisma.intoArticle.update({
-          where: { intro_id: id },
-          data: {
-            intro_id,
-            type,
-            title,
-            abstract,
-            keywords,
-            sub_class,
-            pages,
-            belong_to,
-            article_status,
-            main_author,
-          },
-        });
-
-        res.status(200).json({
-          status: true,
-          data: article,
-          message: "Article updated successfully!",
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({
+  static findOne: MyRequestHandlerFn<IntroArticleInput, IntroArticleInput> = async (req, res) => {
+    try {
+      const article = await prisma.intoArticle.findUnique({
+        where: {
+          intro_id: Number(req.query.intro_id)
+        }
+      });
+      if (!article) {
+        res.status(404).json({
           status: false,
-          error,
-          message: "Updating article failed",
+          message: "Article not found",
         });
+        return;
       }
-    };
+
+      res.status(200).json({
+        status: true,
+        data: article,
+        message: "Article fetched successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Fetching Article failed",
+      });
+    }
+  };
 
   static delete: MyRequestHandlerFn<IntroArticleInput, IntroArticleInput> =
     async (req, res) => {

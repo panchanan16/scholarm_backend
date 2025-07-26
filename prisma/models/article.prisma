@@ -26,14 +26,15 @@ model IntoArticle {
   intro_id       Int              @id @default(autoincrement())
   case_number    String?          @unique
   type           String
-  title          String           @db.VarChar(500)
-  abstract       String           @db.Text
-  keywords       String           @db.VarChar(500)
+  title          String?          @db.VarChar(500)
+  abstract       String?          @db.Text
+  keywords       String?          @db.VarChar(500)
   sub_class      String           @db.VarChar(200)
   pages          Int?
-  belong_to      String           @db.VarChar(200)
+  belong_to      String?          @db.VarChar(200)
   article_status ArticleStatus    @default(incomplete)
   main_author    Int
+  istick         Boolean          @default(false)
   mainAuthor     Author           @relation(fields: [main_author], references: [author_id])
   revision_round Int              @default(0)
   articleAuthors ArticleAuthor[]
@@ -61,6 +62,7 @@ model ArticleDetails {
   isBoradApproval   String?     @db.VarChar(50)
   approvalDetails   String?     @db.Text
   manuscript_file   String?     @db.VarChar(500)
+  istick            Boolean     @default(false)
   Article           IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@map("article_details")
@@ -71,6 +73,7 @@ model ArticleAuthor {
   author_id  Int
   isMain     Boolean     @default(false)
   status     String?     @db.VarChar(100)
+  istick     Boolean     @default(false)
   article    IntoArticle @relation(fields: [article_id], references: [intro_id])
   author     Author      @relation(fields: [author_id], references: [author_id])
 
@@ -89,7 +92,31 @@ model ArticleSection {
   article_id          Int
   section_title       String
   Section_description String?     @db.MediumText
+  istick              Boolean     @default(false)
   introArticle        IntoArticle @relation(fields: [article_id], references: [intro_id])
+}
+
+model Reffences {
+  reffrence_id   Int     @id @default(autoincrement())
+  article_id     Int
+  reference_type String
+  authors        String? @db.Text
+  title          String?
+  source         String?
+  year           Int?
+  volume         Int?
+  issue          Int?
+  pages          String?
+  doi            String?
+  publisher      String?
+  issn           String?
+  url            String?
+  accessed       String?
+  istick         Boolean @default(false)
+
+  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+
+  @@map("article_refferences")
 }
 
 // Assigned Editor
@@ -146,28 +173,6 @@ model AssignReviewer {
 
   @@id([reviewer_id, article_id])
   @@map("assign_reviewer")
-}
-
-model Reffences {
-  reffrence_id   Int     @id @default(autoincrement())
-  article_id     Int
-  reference_type String
-  authors        String? @db.Text
-  title          String?
-  source         String?
-  year           Int?
-  volume         Int?
-  issue          Int?
-  pages          String?
-  doi            String?
-  publisher      String?
-  issn           String?
-  url            String?
-  accessed       String?
-
-  article IntoArticle @relation(fields: [article_id], references: [intro_id])
-
-  @@map("article_refferences")
 }
 
 model publishedArticle {
