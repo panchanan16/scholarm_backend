@@ -25,42 +25,12 @@ class ReffrenceControllers {
 
   static update: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const {
-        reffrence_id,
-        article_id,
-        reference_type,
-        authors,
-        title,
-        source,
-        year,
-        volume,
-        issue,
-        pages,
-        doi,
-        publisher,
-        issn,
-        url,
-        accessed,
-      } = req.body;
+      const { ref_id, reffrence_html_id, article_id, reffrence } = req.body;
       const updatedReffrences = await prisma.reffences.update({
-        where: {
-          reffrence_id,
-        },
+        where: { ref_id },
         data: {
-          article_id,
-          reference_type,
-          authors,
-          title,
-          source,
-          year,
-          volume,
-          issue,
-          pages,
-          doi,
-          publisher,
-          issn,
-          url,
-          accessed,
+          reffrence,
+          reffrence_html_id,
         },
       });
 
@@ -104,7 +74,7 @@ class ReffrenceControllers {
     try {
       const reviewer = await prisma.reffences.findUnique({
         where: {
-          reffrence_id: Number(req.query.reffrence_id),
+          ref_id: Number(req.query.ref_id),
         },
       });
       res.status(200).json({
@@ -124,7 +94,7 @@ class ReffrenceControllers {
     try {
       const reviewer = await prisma.reffences.delete({
         where: {
-          reffrence_id: Number(req.query.reffrence_id),
+          ref_id: Number(req.query.ref_id),
         },
       });
       res.status(200).json({

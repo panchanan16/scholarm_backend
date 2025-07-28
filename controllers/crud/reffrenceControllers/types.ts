@@ -1,19 +1,8 @@
 export type reff = {
-  reffrence_id: number;
+  ref_id: number,
+  reffrence_html_id: string;
   article_id: number;
-  reference_type: string;
-  authors?: string;
-  title?: string;
-  source?: string;
-  year?: number;
-  volume?: number;
-  issue?: number;
-  pages?: string;
-  doi?: string;
-  publisher?: string;
-  issn?: string;
-  url?: string;
-  accessed?: string;
+  reffrence: string
 };
 
 export interface ReqBody extends reff {

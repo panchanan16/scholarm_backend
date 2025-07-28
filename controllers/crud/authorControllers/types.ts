@@ -1,5 +1,5 @@
 export interface ReqBody {
-  author_id?: number;
+  author_id: number;
   author_email: string;
   author_fname: string;
   author_lname: string;

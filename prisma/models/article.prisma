@@ -97,22 +97,10 @@ model ArticleSection {
 }
 
 model Reffences {
-  reffrence_id   Int     @id @default(autoincrement())
-  article_id     Int
-  reference_type String
-  authors        String? @db.Text
-  title          String?
-  source         String?
-  year           Int?
-  volume         Int?
-  issue          Int?
-  pages          String?
-  doi            String?
-  publisher      String?
-  issn           String?
-  url            String?
-  accessed       String?
-  istick         Boolean @default(false)
+  ref_id            Int    @id @default(autoincrement())
+  article_id        Int
+  reffrence_html_id String
+  reffrence         String
 
   article IntoArticle @relation(fields: [article_id], references: [intro_id])
 

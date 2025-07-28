@@ -37,6 +37,8 @@ class ArticleAuthorController {
               author_id: true,
               author_fname: true,
               author_lname: true,
+              author_designation: true,
+              author_email: true,
             },
           },
         },
@@ -124,15 +126,20 @@ class ArticleAuthorController {
     }
   };
 
-  static delete: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+  static remove: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { article_id } = req.query;
-      await prisma.articleDetails.delete({
-        where: { article_id: Number(article_id) },
+      const { article_id, author_id } = req.query;
+      await prisma.articleAuthor.delete({
+        where: {
+          article_id_author_id: {
+            article_id: Number(article_id),
+            author_id: Number(author_id),
+          },
+        },
       });
       res.status(200).json({
         status: true,
-        message: "Article detail deleted successfully!",
+        message: "Author removed from article successfully!",
       });
     } catch (error) {
       console.log(error);

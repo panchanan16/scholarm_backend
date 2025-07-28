@@ -6,6 +6,8 @@ async function insertReffrences(objectsArray) {
       throw new Error("Input must be a non-empty");
     }
 
+    console.log(objectsArray)
+
     const results: any = [];
 
     // Use transaction to insert all records and get their IDs

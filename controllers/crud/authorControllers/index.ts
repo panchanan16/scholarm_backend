@@ -79,17 +79,28 @@ class AuthorController {
   };
 
   static findOne: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+    const { author_email, author_id } = req.query;
     try {
       const authors = await prisma.author.findUnique({
         where: {
-          author_email: req.query.author_email,
+          ...(author_email ? { author_email } : { author_email: undefined }),
+          ...(author_id ? { author_id: Number(author_id) } : null),
         },
       });
-      res.status(200).json({
-        status: true,
-        data: authors,
-        message: "Authors retrieve successfully!",
-      });
+
+      if (authors) {
+        res.status(200).json({
+          status: true,
+          data: authors,
+          message: "Authors retrieve successfully!",
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          data: authors,
+          message: "No author found!",
+        });
+      }
     } catch (error) {
       console.log(error);
       res
