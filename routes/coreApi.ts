@@ -25,6 +25,7 @@ coreRoute.put(
   uploadMultipleFields([{ name: "attach_file", maxCount: 1 }], "reviewFiles"),
   AssignReviewerControllers.recommendation
 );
+coreRoute.post("/assignReviewer/create/author", AssignReviewerControllers.createByAuthor);
 
 
 

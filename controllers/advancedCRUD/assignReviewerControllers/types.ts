@@ -1,4 +1,4 @@
-import { Decision } from "@prisma/client";
+import { Decision, reviewerType } from "@prisma/client";
 
 export type ReqBody = {
   reviewer_id: number;
@@ -12,4 +12,5 @@ export type ReqBody = {
   reviewerDecision?: Decision;
   attach_file?: string;
   attach_file_link?: string;
+  reviewer_type: reviewerType
 };

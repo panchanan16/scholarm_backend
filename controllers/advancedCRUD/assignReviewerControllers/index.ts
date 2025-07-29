@@ -3,6 +3,7 @@ import { ReqBody } from "./types";
 import { updateReviewerResponseToAssignedTask } from "@/services/transactions/reviewerResponse";
 
 class AssignReviewerControllers {
+  // Handle status ---
   static handleStatus: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
       const { article_id, reviewer_id, is_accepted } = req.body;
@@ -102,6 +103,34 @@ class AssignReviewerControllers {
         status: false,
         error,
         message: "Failed to submit recommendation",
+      });
+    }
+  };
+
+  // Assign reviewers by author ---
+  static createByAuthor: MyRequestHandlerFn<ReqBody> = async (req, res) => {
+    try {
+      const { article_id, reviewer_id, reviewer_type } = req.body;
+
+      const isInvited = await prisma.assignReviewer.create({
+        data: {
+          article_id,
+          reviewer_id,
+          reviewer_type,
+        },
+      });
+
+      res.status(200).json({
+        status: true,
+        data: isInvited,
+        message: "Reviewer invited successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Failed to invite reviewer",
       });
     }
   };
