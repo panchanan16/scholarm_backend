@@ -3,6 +3,7 @@ import AssignEditorControllers from "@/controllers/advancedCRUD/assignEditorCont
 import AssignReviewerControllers from "@/controllers/advancedCRUD/assignReviewerControllers";
 import { uploadMultipleFields } from "@/middleware/fileUpload";
 import ArticleAuthorController from "@/controllers/advancedCRUD/articleAuthorControllers";
+import ManuscriptControllers from "@/controllers/advancedCRUD/manuscriptControllers";
 
 const coreRoute = Router();
 
@@ -26,6 +27,11 @@ coreRoute.put(
   AssignReviewerControllers.recommendation
 );
 coreRoute.post("/assignReviewer/create/author", AssignReviewerControllers.createByAuthor);
+
+
+
+// Manuscript apis
+coreRoute.get("/manuscript/findAllByStatus", ManuscriptControllers.findAllByStatus);
 
 
 

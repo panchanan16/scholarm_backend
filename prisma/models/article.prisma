@@ -93,6 +93,7 @@ model ArticleSection {
   section_title       String
   Section_description String?     @db.MediumText
   istick              Boolean     @default(false)
+  refCount            Int?
   introArticle        IntoArticle @relation(fields: [article_id], references: [intro_id])
 }
 

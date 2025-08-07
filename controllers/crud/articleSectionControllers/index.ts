@@ -76,13 +76,14 @@ class ArticleSectionControllers {
   // Update section descriptions
   static update: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { article_id, Section_description, section_title } = req.body;
+      const { article_id, Section_description, section_title, refCount  } = req.body;
       const updated = await prisma.articleSection.updateMany({
         where: {
           AND: [{ article_id }, { section_title }],
         },
         data: {
           Section_description: Section_description,
+          refCount: refCount,
         },
       });
       res.status(200).json({

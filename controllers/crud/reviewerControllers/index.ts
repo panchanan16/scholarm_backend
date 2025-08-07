@@ -30,10 +30,10 @@ class ReviewerControllers {
 
   static update: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { reviewer_name, reviewer_email, reviewer_designation, is_active } =
+      const { reviewer_id, reviewer_name, reviewer_email, reviewer_designation, is_active } =
         req.body;
       const reviewer = await prisma.reviewer.update({
-        where: { reviewer_id: Number(req.query.reviewer_id) },
+        where: { reviewer_id: Number(reviewer_id) },
         data: {
           reviewer_name,
           reviewer_email,
@@ -73,16 +73,29 @@ class ReviewerControllers {
 
   static findOne: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
+      const { reviewer_email, reviewer_id } = req.query;
       const reviewer = await prisma.reviewer.findUnique({
         where: {
-          reviewer_id: Number(req.query.reviewer_id),
+          ...(reviewer_email
+            ? { reviewer_email }
+            : { reviewer_email: undefined }),
+          ...(reviewer_id ? { reviewer_id: Number(reviewer_id) } : null),
         },
       });
-      res.status(200).json({
-        status: true,
-        data: reviewer,
-        message: "Reviewer retrieve successfully!",
-      });
+
+      if (reviewer) {
+        res.status(200).json({
+          status: true,
+          data: reviewer,
+          message: "Reviewer retrieve successfully!",
+        });
+      } else {
+        res.status(500).json({
+          status: false,
+          data: reviewer,
+          message: "No reviewer available!",
+        });
+      }
     } catch (error) {
       console.log(error);
       res

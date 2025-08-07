@@ -55,7 +55,8 @@ class ConfirmSubmitControllers {
           ArticleSection: {
             select: {
               section_id: true,
-              section_title: true
+              section_title: true,
+              refCount: true
             }
           },
           Reffences: true

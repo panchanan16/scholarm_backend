@@ -3,4 +3,5 @@ export type ReqBody = {
   section_title: string;
   article_id: number;
   Section_description: string;
+  refCount: number
 };
