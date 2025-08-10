@@ -12,7 +12,6 @@ export async function assignReviwerAndUpdateStatus(reviewers: ReqBody) {
       },
     });
 
-    
 
     // --- Logic ---
     // 1. if 3 reviewers accepted then status updated to underreview
@@ -20,7 +19,6 @@ export async function assignReviwerAndUpdateStatus(reviewers: ReqBody) {
     // 3. if 3 reviewers commented and then status updated to submissionwithrequiredreviewcompleted.
     // 4. if all reviewers rejected then status updated to needtoassignreviewer
 
-   
 
     const isAssigned = await con.assignReviewer.createMany({
       data: reviewerList,
