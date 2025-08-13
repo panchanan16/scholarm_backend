@@ -9,6 +9,7 @@ class ArticleDetailControllers {
       { name: "materialFile" },
       { name: "codeFile" },
       { name: "dataFile" },
+      { name: "manuscript_file" },
     ],
     folder: "articleFiles",
   };
@@ -29,11 +30,15 @@ class ArticleDetailControllers {
         isHuman,
         isBoradApproval,
         approvalDetails,
+        manuscript_file_link
       } = req.body;
 
-      const is_Material: boolean = isMaterial === "true" || isMaterial === true ? true : false;
-      const is_coding: boolean = isCoding === "true" || isCoding === true ? true : false;
-      const is_Data: boolean = isData === "true" || isData === true ? true : false;
+      const is_Material: boolean =
+        isMaterial === "true" || isMaterial === true ? true : false;
+      const is_coding: boolean =
+        isCoding === "true" || isCoding === true ? true : false;
+      const is_Data: boolean =
+        isData === "true" || isData === true ? true : false;
 
       const cover_letter_file =
         req.file ||
@@ -64,6 +69,13 @@ class ArticleDetailControllers {
           ? req.multiFieldsObject?.["dataFile"][0]
           : data_file_link;
 
+      const manuscript_file = req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["manuscript_file"])
+          ? req.multiFieldsObject?.["manuscript_file"][0]
+          : manuscript_file_link;
+
       const articleDetail = await prisma.articleDetails.create({
         data: {
           article_id,
@@ -74,11 +86,12 @@ class ArticleDetailControllers {
           materialFile,
           isCoding: is_coding,
           codeFile,
-          isData : is_Data,
+          isData: is_Data,
           dataFile,
           isHuman,
           isBoradApproval,
           approvalDetails,
+          manuscript_file
         },
       });
 
@@ -158,12 +171,15 @@ class ArticleDetailControllers {
         isHuman,
         isBoradApproval,
         approvalDetails,
+        istick,
       } = req.body;
 
-
-      const is_Material: boolean = isMaterial === "true" || isMaterial === true ? true : false;
-      const is_coding: boolean = isCoding === "true" || isCoding === true ? true : false;
-      const is_Data: boolean = isData === "true" || isData === true ? true : false;
+      const is_Material: boolean =
+        isMaterial === "true" || isMaterial === true ? true : false;
+      const is_coding: boolean =
+        isCoding === "true" || isCoding === true ? true : false;
+      const is_Data: boolean =
+        isData === "true" || isData === true ? true : false;
 
       const cover_letter_file =
         req.file ||
@@ -204,11 +220,12 @@ class ArticleDetailControllers {
           materialFile,
           isCoding: is_coding,
           codeFile,
-          isData : is_Data,
+          isData: is_Data,
           dataFile,
           isHuman,
           isBoradApproval,
           approvalDetails,
+          istick,
         },
       });
       res.status(200).json({

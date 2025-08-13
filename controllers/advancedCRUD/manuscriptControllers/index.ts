@@ -7,11 +7,13 @@ class ManuscriptControllers {
     req,
     res
   ) => {
-    const { status } = req.query;
+    const { status, role, userId } = req.query;
     try {
+      console.log(status)
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
-          article_status: status,
+          ...(role && role === "author" && { main_author: Number(userId) }),
+          ...(status && { article_status: status }),
         },
         include: {
           articleAuthors: {
@@ -27,6 +29,18 @@ class ManuscriptControllers {
               },
             },
           },
+          AssignEditor:
+            role == "editor"
+              ? {
+                  where: {
+                    editor_id: Number(userId),
+                  },
+                  select: {
+                    editor_id: true,
+                    is_accepted: true,
+                  },
+                }
+              : false,
         },
       });
       res.status(200).json({
@@ -102,7 +116,6 @@ class ManuscriptControllers {
           message: "Manuscripts fetched successfully!",
         });
       }
-      
     } catch (error) {
       console.log(error);
       res.status(500).json({

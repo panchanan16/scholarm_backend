@@ -20,4 +20,5 @@ export interface ReqBody extends FileRequest {
     approvalDetails?: string;
     manuscript_file?: string;
     manuscript_file_link?: string;
+    istick: boolean
 }
