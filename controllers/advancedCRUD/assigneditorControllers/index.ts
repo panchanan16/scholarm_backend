@@ -66,6 +66,46 @@ class AssignEditorControllers {
       });
     }
   };
+
+  // Get Data for Editor To Review ----
+  static readReviewAuthorByEditor: MyRequestHandlerFn<ReqBody> = async (
+    req,
+    res
+  ) => {
+    try {
+      const { article_id } = req.query;
+      const reviewAuthors = await prisma.intoArticle.findUnique({
+        where: {
+          intro_id: Number(article_id),
+        },
+        include: {
+          AssignReviewer: {
+            include: {
+              reviewer: true,
+            },
+          },
+          articleAuthors: {
+            include: {
+              author: true,
+            },
+          },
+        },
+      });
+
+      res.status(200).json({
+        status: true,
+        data: reviewAuthors,
+        message: `Review and Authors fetched successfully!`,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Failed to fetch Review and Authors",
+      });
+    }
+  };
 }
 
 export default AssignEditorControllers;

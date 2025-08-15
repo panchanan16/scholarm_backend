@@ -14,6 +14,7 @@ coreRoute.put(
   uploadMultipleFields([{ name: "editor_file", maxCount: 1 }], "editorFiles"),
   AssignEditorControllers.recommendation
 );
+coreRoute.get("/review/authors/readAll", AssignEditorControllers.readReviewAuthorByEditor);
 
 //Article authors apis
 coreRoute.put("/author/setcorresponding", ArticleAuthorController.updateCorrespondingAuthor);
