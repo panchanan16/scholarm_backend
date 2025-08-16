@@ -2,14 +2,14 @@ import { prisma } from "@/app";
 import { ReqBody } from "./types";
 
 class ManuscriptControllers {
-  // find All from intro article and and authors associalted with it
+  // find All from intro article and and authors associalted with it for Publisher
   static findAllByStatus: MyRequestHandlerFn<ReqBody, ReqBody> = async (
     req,
     res
   ) => {
     const { status, role, userId } = req.query;
     try {
-      console.log(status)
+      console.log(status);
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
           ...(role && role === "author" && { main_author: Number(userId) }),
@@ -122,6 +122,92 @@ class ManuscriptControllers {
         status: false,
         error,
         message: "Failed to fetch manuscript!",
+      });
+    }
+  };
+
+  // Find Manuscript by editor ID ---
+  static findAllByEditorId: MyRequestHandlerFn<ReqBody, ReqBody> = async (
+    req,
+    res
+  ) => {
+    const { status, editorStatus, userId, completed } = req.query;
+    try {
+      const manuscripts = await prisma.intoArticle.findMany({
+        where: {
+          ...(status && { article_status: status }),
+          AssignEditor: {
+            some: {
+              editor_id: Number(userId),
+              ...(editorStatus && { is_accepted: editorStatus }),
+              ...(completed && { is_completed: completed === "true" }),
+            },
+          },
+        },
+        include: {
+          AssignEditor: true,
+          articleAuthors: {
+            include: {
+              author: true,
+            },
+          },
+        },
+      });
+      res.status(200).json({
+        status: true,
+        data: manuscripts,
+        message: "Manuscripts fetched successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Failed to fetch manuscripts!",
+      });
+    }
+  };
+
+
+   // Find Manuscript by editor ID ---
+  static findAllByReviewerId: MyRequestHandlerFn<ReqBody, ReqBody> = async (
+    req,
+    res
+  ) => {
+    const { status, reviewerStatus, userId, completed } = req.query;
+    try {
+      const manuscripts = await prisma.intoArticle.findMany({
+        where: {
+          ...(status && { article_status: status }),
+          AssignReviewer: {
+            some: {
+              reviewer_id: Number(userId),
+              ...(reviewerStatus && { is_accepted: reviewerStatus }),
+              ...(completed && { is_completed: completed === "true" }),
+            },
+          },
+        },
+        include: {
+          AssignReviewer: true,
+          AssignEditor: true,
+          articleAuthors: {
+            include: {
+              author: true,
+            },
+          },
+        },
+      });
+      res.status(200).json({
+        status: true,
+        data: manuscripts,
+        message: "Manuscripts fetched successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Failed to fetch manuscripts!",
       });
     }
   };

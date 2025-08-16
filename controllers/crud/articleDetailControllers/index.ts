@@ -30,7 +30,7 @@ class ArticleDetailControllers {
         isHuman,
         isBoradApproval,
         approvalDetails,
-        manuscript_file_link
+        manuscript_file_link,
       } = req.body;
 
       const is_Material: boolean =
@@ -69,7 +69,8 @@ class ArticleDetailControllers {
           ? req.multiFieldsObject?.["dataFile"][0]
           : data_file_link;
 
-      const manuscript_file = req.file ||
+      const manuscript_file =
+        req.file ||
         (req.files &&
           req.multiFieldsObject &&
           req.multiFieldsObject["manuscript_file"])
@@ -91,7 +92,7 @@ class ArticleDetailControllers {
           isHuman,
           isBoradApproval,
           approvalDetails,
-          manuscript_file
+          manuscript_file,
         },
       });
 
@@ -139,12 +140,13 @@ class ArticleDetailControllers {
           status: false,
           message: "Article detail not found",
         });
+      } else {
+        res.status(200).json({
+          status: true,
+          data: articleDetail,
+          message: "Article detail fetched successfully!",
+        });
       }
-      res.status(200).json({
-        status: true,
-        data: articleDetail,
-        message: "Article detail fetched successfully!",
-      });
     } catch (error) {
       console.log(error);
       res.status(500).json({

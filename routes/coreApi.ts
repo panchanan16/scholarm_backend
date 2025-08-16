@@ -34,6 +34,8 @@ coreRoute.post("/assignReviewer/create/author", AssignReviewerControllers.create
 // Manuscript apis
 coreRoute.get("/manuscript/findAllByStatus", ManuscriptControllers.findAllByStatus);
 coreRoute.get("/manuscript/review/readOne", ManuscriptControllers.findOne);
+coreRoute.get("/manuscript/findAllByEditor", ManuscriptControllers.findAllByEditorId);
+coreRoute.get("/manuscript/findAllByReviewer", ManuscriptControllers.findAllByReviewerId);
 
 
 

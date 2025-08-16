@@ -41,6 +41,7 @@ model IntoArticle {
   ArticleDetails ArticleDetails[]
   AssignEditor   AssignEditor[]
   AssignReviewer AssignReviewer[]
+  AssignAdmin    AssignAdmin[]
   ArticleSection ArticleSection[]
   Reffences      Reffences[]
 
@@ -101,7 +102,7 @@ model Reffences {
   ref_id            Int    @id @default(autoincrement())
   article_id        Int
   reffrence_html_id String
-  reffrence         String
+  reffrence         String @db.Text
 
   article IntoArticle @relation(fields: [article_id], references: [intro_id])
 
@@ -165,6 +166,23 @@ model AssignReviewer {
 
   @@id([reviewer_id, article_id])
   @@map("assign_reviewer")
+}
+
+// Assign Admin 
+model AssignAdmin {
+  admin_id      Int
+  article_id    Int
+  comments      String?   @db.Text
+  admin_file    String?   @db.VarChar(500)
+  main_decision Decision?
+  to_show       String?   @db.VarChar(200)
+  round         Int       @default(1)
+
+  admin   SuperAdmin  @relation(fields: [admin_id], references: [admin_id])
+  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+
+  @@id([admin_id, article_id, round])
+  @@map("assign_admin")
 }
 
 model publishedArticle {
