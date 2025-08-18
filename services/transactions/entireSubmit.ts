@@ -13,7 +13,7 @@ export async function FinalSubmissionOfJournal(article_id) {
     let case_number: string;
     let revision_round: number;
 
-    if (prevStatus?.case_number) {
+    if (prevStatus?.case_number) { // checking if article is incomplete submission or revised one 
       if (prevStatus.article_status === ArticleStatus.revise) {
         case_number = `${prevStatus.case_number.split('_')[0]}_R${
           prevStatus.revision_round + 1
@@ -61,7 +61,7 @@ export async function FinalSubmissionOfJournal(article_id) {
 }
 
 //:: Logic for case_number & revision_round
-// While inserting as  submit case_number:-
+// While inserting as submit case_number:-
 /* it will if it is first check if there is already a casenumber for that article_id and status is revise
    - if it is true it will add _R[current_rev_round + 1] to it since it is coming revision and revision round will incerease 1 then prev
    - if it is false for no case number is there this means it was incomplete submission, then: -

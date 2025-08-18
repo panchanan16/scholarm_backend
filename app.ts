@@ -10,7 +10,7 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import appRoute from "@/routes/applicationApi";
 import coreRoute from "./routes/coreApi";
-import authRouter from "@/routes/auth";
+import authRoute from "./routes/auth";
 
 dotenv.config({ path: [".env.development", ".env"] });
 
@@ -55,7 +55,7 @@ app.use("/api/v1", appRoute);
 app.use("/api/v1/entity", coreRoute);
 
 // Auth API ------
-app.use("/", authRouter);
+app.use("/auth", authRoute);
 
 app.listen(PORT, () => {
   console.log(`Server listening at port ${PORT} 🚀🚀`);

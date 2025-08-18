@@ -12,7 +12,6 @@ class ManuscriptControllers {
       console.log(status);
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
-          ...(role && role === "author" && { main_author: Number(userId) }),
           ...(status && { article_status: status }),
         },
         include: {
@@ -29,18 +28,11 @@ class ManuscriptControllers {
               },
             },
           },
-          AssignEditor:
-            role == "editor"
-              ? {
-                  where: {
-                    editor_id: Number(userId),
-                  },
-                  select: {
-                    editor_id: true,
-                    is_accepted: true,
-                  },
-                }
-              : false,
+          AssignEditor: {
+            include: {
+              editor: true,
+            },
+          },
         },
       });
       res.status(200).json({
@@ -99,6 +91,11 @@ class ManuscriptControllers {
                   reviewer_email: true,
                 },
               },
+            },
+          },
+          AssignAdmin: {
+            include: {
+              admin: true,
             },
           },
         },
@@ -168,8 +165,7 @@ class ManuscriptControllers {
     }
   };
 
-
-   // Find Manuscript by editor ID ---
+  // Find Manuscript by editor ID ---
   static findAllByReviewerId: MyRequestHandlerFn<ReqBody, ReqBody> = async (
     req,
     res
