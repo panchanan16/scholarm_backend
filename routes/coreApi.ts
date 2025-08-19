@@ -36,6 +36,7 @@ coreRoute.get("/manuscript/findAllByStatus", ManuscriptControllers.findAllByStat
 coreRoute.get("/manuscript/review/readOne", ManuscriptControllers.findOne);
 coreRoute.get("/manuscript/findAllByEditor", ManuscriptControllers.findAllByEditorId);
 coreRoute.get("/manuscript/findAllByReviewer", ManuscriptControllers.findAllByReviewerId);
+coreRoute.post("/manuscript/findAllByAuthor", ManuscriptControllers.findAllByAuthorId);
 
 
 

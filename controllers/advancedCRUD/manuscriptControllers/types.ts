@@ -7,5 +7,6 @@ export interface ReqBody {
     completed: string,
     article_id: number,
     role: string,
-    userId: number
+    userId: number,
+    processed: string
 }

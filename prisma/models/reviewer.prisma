@@ -4,5 +4,6 @@ model Reviewer {
   reviewer_email       String           @unique
   reviewer_designation String?
   is_active            Boolean          @default(true)
+  reviewer_password    String?          @db.VarChar(500)
   AssignReviewer       AssignReviewer[]
 }

@@ -4,6 +4,7 @@ model Author {
   author_fname       String?
   author_lname       String?
   author_designation String?
+  author_password    String?         @db.VarChar(500)
   IntoArticle        IntoArticle[]
   ArticleAuthor      ArticleAuthor[]
 }
