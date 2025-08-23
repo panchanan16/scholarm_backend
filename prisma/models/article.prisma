@@ -35,7 +35,7 @@ model IntoArticle {
   article_status ArticleStatus    @default(incomplete)
   main_author    Int
   istick         Boolean          @default(false)
-  mainAuthor     Author           @relation(fields: [main_author], references: [author_id])
+  mainAuthor     Author           @relation(fields: [main_author], references: [author_id], onDelete: Cascade)
   revision_round Int              @default(0)
   articleAuthors ArticleAuthor[]
   ArticleDetails ArticleDetails[]
@@ -75,8 +75,8 @@ model ArticleAuthor {
   isMain     Boolean     @default(false)
   status     String?     @db.VarChar(100)
   istick     Boolean     @default(false)
-  article    IntoArticle @relation(fields: [article_id], references: [intro_id])
-  author     Author      @relation(fields: [author_id], references: [author_id])
+  article    IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+  author     Author      @relation(fields: [author_id], references: [author_id], onDelete: Cascade)
 
   @@id([article_id, author_id])
   @@map("article_authors")
@@ -95,7 +95,7 @@ model ArticleSection {
   Section_description String?     @db.MediumText
   istick              Boolean     @default(false)
   refCount            Int?
-  introArticle        IntoArticle @relation(fields: [article_id], references: [intro_id])
+  introArticle        IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 }
 
 model Reffences {
@@ -104,7 +104,7 @@ model Reffences {
   reffrence_html_id String
   reffrence         String @db.Text
 
-  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+  article IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@map("article_refferences")
 }
@@ -137,8 +137,8 @@ model AssignEditor {
   to_show       String?      @db.VarChar(200)
   round         Int          @default(1)
 
-  editor  Editor      @relation(fields: [editor_id], references: [editor_id])
-  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+  editor  Editor      @relation(fields: [editor_id], references: [editor_id], onDelete: Cascade)
+  article IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@id([editor_id, article_id])
   @@map("assign_editor")
@@ -161,8 +161,8 @@ model AssignReviewer {
   reminder_date    String?
   round            Int          @default(1)
 
-  reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id])
-  article  IntoArticle @relation(fields: [article_id], references: [intro_id])
+  reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
+  article  IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@id([reviewer_id, article_id])
   @@map("assign_reviewer")
@@ -178,8 +178,8 @@ model AssignAdmin {
   to_show       String?   @db.VarChar(200)
   round         Int       @default(1)
 
-  admin   SuperAdmin  @relation(fields: [admin_id], references: [admin_id])
-  article IntoArticle @relation(fields: [article_id], references: [intro_id])
+  admin   SuperAdmin  @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
+  article IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@id([admin_id, article_id, round])
   @@map("assign_admin")

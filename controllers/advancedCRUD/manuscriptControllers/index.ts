@@ -13,7 +13,10 @@ class ManuscriptControllers {
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
           ...(status !== "accepted" &&
-            status !== "rejected" && status !== "incomplete" && { revision_round: type ? { not: 0 } : 0 }),
+            status !== "rejected" &&
+            status !== "incomplete" && {
+              revision_round: type === "revision" ? { not: 0 } : 0,
+            }),
           ...(status && { article_status: status }),
         },
         include: {
@@ -272,6 +275,57 @@ class ManuscriptControllers {
         status: false,
         error,
         message: "Failed to fetch manuscripts for authors!",
+      });
+    }
+  };
+
+  static findArticleForView: MyRequestHandlerFn<ReqBody, ReqBody> = async (
+    req,
+    res
+  ) => {
+    const { article_id } = req.query;
+    try {
+      const manuscript = await prisma.intoArticle.findUnique({
+        where: {
+          intro_id: Number(article_id),
+        },
+        include: {
+          articleAuthors: {
+            include: {
+              author: {
+                select: {
+                  author_id: true,
+                  author_fname: true,
+                  author_lname: true,
+                  author_email: true,
+                },
+              },
+            },
+          },
+          ArticleSection: true,
+          Reffences: true
+         
+        },
+      });
+
+      if (!manuscript) {
+        res.status(404).json({
+          status: false,
+          message: "Manuscript not found!",
+        });
+      } else {
+        res.status(200).json({
+          status: true,
+          data: manuscript,
+          message: "Manuscripts fetched successfully!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        status: false,
+        error,
+        message: "Failed to fetch manuscript!",
       });
     }
   };

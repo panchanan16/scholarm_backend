@@ -102,7 +102,7 @@ class IntroArticleControllers {
     }
   };
 
-  static delete: MyRequestHandlerFn<IntroArticleInput, IntroArticleInput> =
+  static remove: MyRequestHandlerFn<IntroArticleInput, IntroArticleInput> =
     async (req, res) => {
       try {
         const id = Number(req.query.intro_id);
