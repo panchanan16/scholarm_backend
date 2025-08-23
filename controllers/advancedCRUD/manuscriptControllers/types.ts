@@ -8,5 +8,7 @@ export interface ReqBody {
     article_id: number,
     role: string,
     userId: number,
-    processed: string
+    processed: string,
+    disposal: string,
+    type: string | undefined
 }

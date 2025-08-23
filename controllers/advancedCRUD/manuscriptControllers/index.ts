@@ -8,11 +8,12 @@ class ManuscriptControllers {
     req,
     res
   ) => {
-    const { status, role, userId } = req.query;
+    const { status, type } = req.query;
     try {
-      console.log(status);
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
+          ...(status !== "accepted" &&
+            status !== "rejected" && status !== "incomplete" && { revision_round: type ? { not: 0 } : 0 }),
           ...(status && { article_status: status }),
         },
         include: {
@@ -129,7 +130,7 @@ class ManuscriptControllers {
     req,
     res
   ) => {
-    const { status, editorStatus, userId, completed } = req.query;
+    const { status, editorStatus, userId, completed, disposal } = req.query;
     try {
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
@@ -141,6 +142,22 @@ class ManuscriptControllers {
               ...(completed && { is_completed: completed === "true" }),
             },
           },
+          ...(disposal &&
+            disposal === "true" && {
+              AssignAdmin: {
+                some: {
+                  main_decision: { not: null },
+                },
+              },
+            }),
+          ...(disposal &&
+            disposal === "false" && {
+              AssignAdmin: {
+                some: {
+                  main_decision: null,
+                },
+              },
+            }),
         },
         include: {
           AssignEditor: true,
@@ -220,7 +237,7 @@ class ManuscriptControllers {
           "editorinvited",
           "submissionneedadditionalreviewers",
           "reviewerinvited",
-          "underreview"
+          "underreview",
         ]
       : [];
     try {

@@ -3,7 +3,7 @@ import { ArticleStatus } from "@prisma/client";
 
 export async function updateEditorDesicionToAssignedTask(data, editorFile) {
   const tracsaction = await prisma.$transaction(async (db) => {
-    const { to_show, article_id, editor_id, comments, main_decision } = data;
+    const { to_show, article_id, editor_id, comments, main_decision, is_completed } = data;
 
     const toShow: string = JSON.stringify(to_show?.join(""));
 
@@ -35,6 +35,7 @@ export async function updateEditorDesicionToAssignedTask(data, editorFile) {
         main_decision,
         to_show: toShow,
         editor_file: editorFile,
+        is_completed: is_completed
       },
     });
 
