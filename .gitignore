@@ -55,8 +55,8 @@ coverage/
 *.sln
 
 # Build directories
-dist/
-build/
+# dist/
+# build/
 tmp/
 temp/
 

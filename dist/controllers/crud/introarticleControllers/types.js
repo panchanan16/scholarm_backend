@@ -1,0 +1,23 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ArticleStatus = void 0;
+var ArticleStatus;
+(function (ArticleStatus) {
+    ArticleStatus["INCOMPLETE"] = "incomplete";
+    ArticleStatus["NEWSUBMISSION"] = "newsubmission";
+    ArticleStatus["INPRESS"] = "inpress";
+    ArticleStatus["EDITORINVITED"] = "editorinvited";
+    ArticleStatus["NEEDTOASSIGNEDITOR"] = "needtoassigneditor";
+    ArticleStatus["NEEDTOASSIGNREVIEWER"] = "needtoassignreviewer";
+    ArticleStatus["UNDERREVIEW"] = "underreview";
+    ArticleStatus["DECISIONINPROCESS"] = "decisioninprocess";
+    ArticleStatus["ACCEPTED"] = "accepted";
+    ArticleStatus["REJECTED"] = "rejected";
+    ArticleStatus["SENTTOAUTHOR"] = "senttoauthor";
+    ArticleStatus["NOREVIEWCOMPLETED"] = "noreviewcompleted";
+    ArticleStatus["ONEREVIEWCOMPLETED"] = "onereviewcompleted";
+    ArticleStatus["TWOREVIEWCOMPLETED"] = "tworeviewcompleted";
+    ArticleStatus["THREEREVIEWCOMPLETED"] = "threereviewcompleted";
+    ArticleStatus["FOURORMOREREVIEWCOMPLETED"] = "fourormorereviewcompleted";
+    ArticleStatus["REVISIONDUE"] = "revisiondue";
+})(ArticleStatus || (exports.ArticleStatus = ArticleStatus = {}));
