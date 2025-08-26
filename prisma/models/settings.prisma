@@ -12,6 +12,21 @@ model EmailTemplate {
   @@map("email_template")
 }
 
+model EmailTemplateFieldType {
+  type_id            Int                  @id @default(autoincrement())
+  field_type         String               @db.VarChar(200)
+  EmailTemplateField EmailTemplateField[]
+}
+
+model EmailTemplateField {
+  field_id    Int    @id @default(autoincrement())
+  field_type  Int
+  field_name  String
+  field_value String
+
+  category EmailTemplateFieldType @relation(fields: [field_type], references: [type_id])
+}
+
 model ReminderTemplate {
   reminder_id Int     @id @default(autoincrement())
   template_id Int

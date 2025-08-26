@@ -4,15 +4,17 @@ import { ArticleStatus } from "@prisma/client";
 export async function updateReviewerResponseToAssignedTask(
   article_id: number,
   reviewer_id: number,
-  status: "accepted" | "rejected"
+  status: "accepted" | "rejected",
+  round: number
 ) {
   const tracsaction = await prisma.$transaction(async (db) => {
     // 1. Update the Editors response.
     const isUpdated = await db.assignReviewer.update({
       where: {
-        reviewer_id_article_id: {
+        reviewer_id_article_id_round: {
           article_id: Number(article_id),
           reviewer_id: Number(reviewer_id),
+          round: Number(round)
         },
       },
       data: {

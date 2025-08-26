@@ -140,7 +140,7 @@ model AssignEditor {
   editor  Editor      @relation(fields: [editor_id], references: [editor_id], onDelete: Cascade)
   article IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
-  @@id([editor_id, article_id])
+  @@id([editor_id, article_id, round])
   @@map("assign_editor")
 }
 
@@ -164,7 +164,7 @@ model AssignReviewer {
   reviewer Reviewer    @relation(fields: [reviewer_id], references: [reviewer_id], onDelete: Cascade)
   article  IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
-  @@id([reviewer_id, article_id])
+  @@id([reviewer_id, article_id, round])
   @@map("assign_reviewer")
 }
 

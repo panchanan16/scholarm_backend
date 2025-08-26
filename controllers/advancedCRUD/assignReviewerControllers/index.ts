@@ -6,12 +6,15 @@ class AssignReviewerControllers {
   // Handle status ---
   static handleStatus: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { article_id, reviewer_id, is_accepted } = req.body;
+      const { article_id, reviewer_id, is_accepted, round } = req.body;
       const isStatus: any = await updateReviewerResponseToAssignedTask(
         article_id,
         reviewer_id,
-        is_accepted
+        is_accepted,
+        round
       );
+
+      // If accepted count for the incoming round is fullfill our requirement.
       const acceptedCount: number = isStatus.filter(
         (r) => r.is_accepted === "accepted"
       ).length;
@@ -42,6 +45,7 @@ class AssignReviewerControllers {
         is_need_revision,
         editor_comment,
         comment,
+        round,
         is_completed,
         attach_file_link,
         reviewerDecision,
@@ -58,9 +62,10 @@ class AssignReviewerControllers {
       // check if the reviewer has accepted the assignment
       const isAccepted = await prisma.assignReviewer.findUnique({
         where: {
-          reviewer_id_article_id: {
+          reviewer_id_article_id_round: {
             article_id: Number(article_id),
             reviewer_id: Number(reviewer_id),
+            round: Number(round),
           },
         },
       });
@@ -74,11 +79,14 @@ class AssignReviewerControllers {
         return;
       }
 
+      // Check if the incoming round number has total review enough to updated status
+
       const isUpdated = await prisma.assignReviewer.update({
         where: {
-          reviewer_id_article_id: {
+          reviewer_id_article_id_round: {
             article_id: Number(article_id),
             reviewer_id: Number(reviewer_id),
+            round: Number(round),
           },
         },
         data: {

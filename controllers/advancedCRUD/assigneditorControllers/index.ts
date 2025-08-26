@@ -7,15 +7,14 @@ import { updateEditorDesicionToAssignedTask } from "@/services/transactions/edit
 class AssignEditorControllers {
   static handleStatus: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { article_id, editor_id, status } = req.body;
+      const { article_id, editor_id, round, status } = req.body;
 
       const isUpdated = await updateEditorResponseToAssignedTask(
         article_id,
         editor_id,
-        status
+        status,
+        round
       );
-
-      console.log(isUpdated);
 
       res.status(200).json({
         status: true,

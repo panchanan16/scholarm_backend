@@ -88,13 +88,14 @@ class AssignEditorToArticle {
   // Unassign Editor from Article
   static remove: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { article_id, editor_id } = req.query;
+      const { article_id, editor_id, round } = req.query;
 
       const isUnassigned = await prisma.assignEditor.delete({
         where: {
-          editor_id_article_id: {
+          editor_id_article_id_round: {
             article_id: Number(article_id),
             editor_id: Number(editor_id),
+            round: Number(round)
           },
         },
       });

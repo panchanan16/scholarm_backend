@@ -51,13 +51,14 @@ class AssignReviewerControllers {
 
   // delete a reviewer assignment
   static remove: MyRequestHandlerFn<ReqBody> = async (req, res) => {
-    const { reviewer_id, article_id } = req.query;
+    const { reviewer_id, article_id, round } = req.query;
     try {
       const isDeleted = await prisma.assignReviewer.delete({
         where: {
-          reviewer_id_article_id: {
+          reviewer_id_article_id_round: {
             reviewer_id: Number(reviewer_id),
             article_id: Number(article_id),
+            round: Number(round) 
           },
         },
       });

@@ -8,6 +8,7 @@ export type ReqBody = {
   is_under_scope?: boolean;
   is_need_revision?: boolean;
   editor_comment?: string;
+  round: number;
   comment?: string;
   reviewerDecision?: Decision;
   attach_file?: string;

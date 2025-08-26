@@ -5,7 +5,7 @@ export type ReqBody = {
   article_id: number;
   editor_email?: string;
   status: "accepted" | "rejected";
-
+  round: number;
   no_days?: number;
   is_completed: boolean;
   comments?: string;
