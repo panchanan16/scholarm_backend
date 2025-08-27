@@ -10,6 +10,7 @@ class AssignEditorToArticle {
       const {
         editor_id,
         article_id,
+        round,
         editor_email,
         no_days,
         email_subject,
@@ -21,6 +22,7 @@ class AssignEditorToArticle {
           editor_id,
           article_id,
           no_days,
+          round
         },
       });
 

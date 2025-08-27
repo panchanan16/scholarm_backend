@@ -23,11 +23,12 @@ class AssignReviewerControllers {
   };
 
   static findAll: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
-    const { article_id } = req.query;
+    const { article_id, round } = req.query;
     try {
       const reviewers = await prisma.assignReviewer.findMany({
         where: {
           article_id: Number(article_id),
+          round: Number(round),
         },
         include: {
           reviewer: true,
