@@ -1,17 +1,20 @@
 import { prisma } from "@/app";
 import { ReqBody } from "./types";
+import { encryptPassword } from "@/utils/createPasswordHash";
 
 class AuthorController {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { author_email, author_fname, author_lname, author_designation } =
+      const { author_email, author_fname, author_lname, author_designation, author_password } =
         req.body;
+      const hashedPassword = await encryptPassword(author_password)
       const user = await prisma.author.create({
         data: {
           author_email,
           author_fname,
           author_lname,
           author_designation,
+          author_password: hashedPassword
         },
       });
 

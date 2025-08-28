@@ -1,15 +1,19 @@
 import { prisma } from "@/app";
 import { ReqBody } from "./types";
+import { encryptPassword } from "@/utils/createPasswordHash";
 
 class EditorControllers {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { editor_email, editor_name, is_active } = req.body;
+      const { editor_email, editor_name, is_active, editor_password } =
+        req.body;
+      const hashedPassword = await encryptPassword(editor_password)
       const editor = await prisma.editor.create({
         data: {
           editor_name,
           editor_email,
           is_active,
+          editor_password: hashedPassword,
         },
       });
 
@@ -25,8 +29,6 @@ class EditorControllers {
         .json({ status: false, error, message: "Editor creation failed" });
     }
   };
-
-
 
   static findAll: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
@@ -84,6 +86,5 @@ class EditorControllers {
     }
   };
 }
-
 
 export default EditorControllers;

@@ -1,17 +1,25 @@
 import { prisma } from "@/app";
 import { ReqBody } from "./types";
+import { encryptPassword } from "@/utils/createPasswordHash";
 
 class ReviewerControllers {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { reviewer_name, reviewer_email, reviewer_designation, is_active } =
-        req.body;
+      const {
+        reviewer_name,
+        reviewer_email,
+        reviewer_designation,
+        is_active,
+        reviewer_password,
+      } = req.body;
+      const hashedPassword = await encryptPassword(reviewer_password);
       const reviewer = await prisma.reviewer.create({
         data: {
           reviewer_name,
           reviewer_email,
           reviewer_designation,
           is_active,
+          reviewer_password: hashedPassword,
         },
       });
 
@@ -30,8 +38,13 @@ class ReviewerControllers {
 
   static update: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
     try {
-      const { reviewer_id, reviewer_name, reviewer_email, reviewer_designation, is_active } =
-        req.body;
+      const {
+        reviewer_id,
+        reviewer_name,
+        reviewer_email,
+        reviewer_designation,
+        is_active,
+      } = req.body;
       const reviewer = await prisma.reviewer.update({
         where: { reviewer_id: Number(reviewer_id) },
         data: {
