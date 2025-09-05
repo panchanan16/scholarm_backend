@@ -1,0 +1,32 @@
+model Journal {
+  journal_id       Int             @id @default(autoincrement())
+  journal_type     String          @db.VarChar(300)
+  journal_issn     String          @db.VarChar(100)
+  journal_eissn    String          @db.VarChar(100)
+  publication_type String          @db.VarChar(300)
+  journal_name     String          @db.VarChar(500)
+  is_active        Boolean         @default(true)
+  created_at       DateTime        @default(now())
+  JOurnalVolume    JournalVolume[]
+  JournalIssue     JournalIssue[]
+}
+
+model JournalVolume {
+  vol_id       Int            @id @default(autoincrement())
+  vol_name     String         @db.VarChar(200)
+  journal_id   Int
+  journalRef   Journal        @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
+  JournalIssue JournalIssue[]
+}
+
+model JournalIssue {
+  iss_id       Int           @id @default(autoincrement())
+  iss_name     String        @db.VarChar(200)
+  is_special   Boolean       @default(false)
+  is_published Boolean       @default(false)
+  created_at   String?
+  journal_id   Int
+  vol_id       Int
+  journalRef   Journal       @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
+  volRef       JournalVolume @relation(fields: [vol_id], references: [vol_id], onDelete: Cascade)
+}

@@ -27,7 +27,9 @@ export type IntroArticleInput = {
   sub_class: string;
   pages?: number;
   belong_to: string;
+  issueType: string;
+  specialIssue: number;
   article_status?: ArticleStatus;
   main_author: number;
-  istick: boolean
+  istick: boolean;
 };

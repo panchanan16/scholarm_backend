@@ -2,6 +2,6 @@ model SuperAdmin {
   admin_id       Int           @id @default(autoincrement())
   admin_email    String        @unique
   admin_name     String
-  admin_password String?        @db.VarChar(500)
+  admin_password String?       @db.VarChar(500)
   AssignAdmin    AssignAdmin[]
 }

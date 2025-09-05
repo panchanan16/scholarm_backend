@@ -11,6 +11,8 @@ class IntroArticleControllers {
         keywords,
         pages,
         belong_to,
+        issueType,
+        specialIssue,
         article_status,
         istick
       } = req.body;
@@ -25,6 +27,8 @@ class IntroArticleControllers {
           keywords,
           pages,
           belong_to,
+          issueType,
+          specialIssue: Number(specialIssue),
           article_status,
           istick
         },

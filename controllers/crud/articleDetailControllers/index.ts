@@ -5,10 +5,10 @@ import { FilekeyType } from "@/routes/type";
 class ArticleDetailControllers {
   static fileKeys: FilekeyType = {
     keys: [
-      { name: "cover_letter_file" },
-      { name: "materialFile" },
-      { name: "codeFile" },
-      { name: "dataFile" },
+      // { name: "cover_letter_file" },
+      // { name: "materialFile" },
+      // { name: "codeFile" },
+      // { name: "dataFile" },
       { name: "manuscript_file" },
     ],
     folder: "articleFiles",
@@ -18,56 +18,55 @@ class ArticleDetailControllers {
     try {
       const article_id = Number(req.body.article_id);
       const {
-        cover_letter,
-        cover_letter_file_link,
-        isFunding,
-        isMaterial,
-        material_file_link,
-        isCoding,
-        code_file_link,
-        isData,
-        data_file_link,
-        isHuman,
-        isBoradApproval,
-        approvalDetails,
+        isConflictInterest,
+        conflict,
+        isFunded,
+        funding_info,
+        isEthical,
+        ethical_info,
+        isInformedConsent,
+        consent_info,
+        isClinical,
+        clinical_info,
+        copyright,
         manuscript_file_link,
       } = req.body;
 
-      const is_Material: boolean =
-        isMaterial === "true" || isMaterial === true ? true : false;
-      const is_coding: boolean =
-        isCoding === "true" || isCoding === true ? true : false;
-      const is_Data: boolean =
-        isData === "true" || isData === true ? true : false;
+      // const is_Material: boolean =
+      //   isMaterial === "true" || isMaterial === true ? true : false;
+      // const is_coding: boolean =
+      //   isCoding === "true" || isCoding === true ? true : false;
+      // const is_Data: boolean =
+      //   isData === "true" || isData === true ? true : false;
 
-      const cover_letter_file =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["cover_letter_file"])
-          ? req.multiFieldsObject?.["cover_letter_file"][0]
-          : cover_letter_file_link;
-      const materialFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["materialFile"])
-          ? req.multiFieldsObject?.["materialFile"][0]
-          : material_file_link;
-      const codeFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["codeFile"])
-          ? req.multiFieldsObject?.["codeFile"][0]
-          : code_file_link;
-      const dataFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["dataFile"])
-          ? req.multiFieldsObject?.["dataFile"][0]
-          : data_file_link;
+      // const cover_letter_file =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["cover_letter_file"])
+      //     ? req.multiFieldsObject?.["cover_letter_file"][0]
+      //     : cover_letter_file_link;
+      // const materialFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["materialFile"])
+      //     ? req.multiFieldsObject?.["materialFile"][0]
+      //     : material_file_link;
+      // const codeFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["codeFile"])
+      //     ? req.multiFieldsObject?.["codeFile"][0]
+      //     : code_file_link;
+      // const dataFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["dataFile"])
+      //     ? req.multiFieldsObject?.["dataFile"][0]
+      //     : data_file_link;
 
       const manuscript_file =
         req.file ||
@@ -80,18 +79,17 @@ class ArticleDetailControllers {
       const articleDetail = await prisma.articleDetails.create({
         data: {
           article_id,
-          cover_letter,
-          cover_letter_file,
-          isFunding,
-          isMaterial: is_Material,
-          materialFile,
-          isCoding: is_coding,
-          codeFile,
-          isData: is_Data,
-          dataFile,
-          isHuman,
-          isBoradApproval,
-          approvalDetails,
+          isConflictInterest,
+          conflict,
+          isFunded,
+          funding_info,
+          isEthical,
+          ethical_info,
+          isInformedConsent,
+          consent_info,
+          isClinical,
+          clinical_info,
+          copyright,
           manuscript_file,
         },
       });
@@ -161,72 +159,80 @@ class ArticleDetailControllers {
     try {
       const {
         article_id,
-        cover_letter,
-        cover_letter_file_link,
-        isFunding,
-        isMaterial,
-        material_file_link,
-        isCoding,
-        code_file_link,
-        isData,
-        data_file_link,
-        isHuman,
-        isBoradApproval,
-        approvalDetails,
+        isConflictInterest,
+        conflict,
+        isFunded,
+        funding_info,
+        isEthical,
+        ethical_info,
+        isInformedConsent,
+        consent_info,
+        isClinical,
+        clinical_info,
+        copyright,
         istick,
+        manuscript_file_link,
       } = req.body;
 
-      const is_Material: boolean =
-        isMaterial === "true" || isMaterial === true ? true : false;
-      const is_coding: boolean =
-        isCoding === "true" || isCoding === true ? true : false;
-      const is_Data: boolean =
-        isData === "true" || isData === true ? true : false;
+      const manuscript_file =
+        req.file ||
+        (req.files &&
+          req.multiFieldsObject &&
+          req.multiFieldsObject["manuscript_file"])
+          ? req.multiFieldsObject?.["manuscript_file"][0]
+          : manuscript_file_link;
 
-      const cover_letter_file =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["cover_letter_file"])
-          ? req.multiFieldsObject?.["cover_letter_file"][0]
-          : cover_letter_file_link;
-      const materialFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["materialFile"])
-          ? req.multiFieldsObject?.["materialFile"][0]
-          : material_file_link;
-      const codeFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["codeFile"])
-          ? req.multiFieldsObject?.["codeFile"][0]
-          : code_file_link;
-      const dataFile =
-        req.file ||
-        (req.files &&
-          req.multiFieldsObject &&
-          req.multiFieldsObject["dataFile"])
-          ? req.multiFieldsObject?.["dataFile"][0]
-          : data_file_link;
+      // const is_Material: boolean =
+      //   isMaterial === "true" || isMaterial === true ? true : false;
+      // const is_coding: boolean =
+      //   isCoding === "true" || isCoding === true ? true : false;
+      // const is_Data: boolean =
+      //   isData === "true" || isData === true ? true : false;
+
+      // const cover_letter_file =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["cover_letter_file"])
+      //     ? req.multiFieldsObject?.["cover_letter_file"][0]
+      //     : cover_letter_file_link;
+      // const materialFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["materialFile"])
+      //     ? req.multiFieldsObject?.["materialFile"][0]
+      //     : material_file_link;
+      // const codeFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["codeFile"])
+      //     ? req.multiFieldsObject?.["codeFile"][0]
+      //     : code_file_link;
+      // const dataFile =
+      //   req.file ||
+      //   (req.files &&
+      //     req.multiFieldsObject &&
+      //     req.multiFieldsObject["dataFile"])
+      //     ? req.multiFieldsObject?.["dataFile"][0]
+      //     : data_file_link;
 
       const updatedArticleDetail = await prisma.articleDetails.update({
         where: { article_id: Number(article_id) },
         data: {
-          cover_letter,
-          cover_letter_file,
-          isFunding,
-          isMaterial: is_Material,
-          materialFile,
-          isCoding: is_coding,
-          codeFile,
-          isData: is_Data,
-          dataFile,
-          isHuman,
-          isBoradApproval,
-          approvalDetails,
+          isConflictInterest,
+          conflict,
+          isFunded,
+          funding_info,
+          isEthical,
+          ethical_info,
+          isInformedConsent,
+          consent_info,
+          isClinical,
+          clinical_info,
+          copyright,
+          manuscript_file,
           istick,
         },
       });

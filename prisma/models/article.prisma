@@ -22,6 +22,9 @@ enum ArticleStatus {
   revisiondue
 }
 
+// specialIssue: IntroDataObject ? IntroDataObject.specialIssue ? IntroDataObject.specialIssue : null : null,
+// issueType: IntroDataObject ? (IntroDataObject.issueType ? IntroDataObject.issueType : "regular") : "regular"
+
 model IntoArticle {
   intro_id       Int              @id @default(autoincrement())
   case_number    String?          @unique
@@ -32,6 +35,8 @@ model IntoArticle {
   sub_class      String           @db.VarChar(200)
   pages          Int?
   belong_to      String?          @db.VarChar(200)
+  issueType      String           @default("regular")
+  specialIssue   Int?
   article_status ArticleStatus    @default(incomplete)
   main_author    Int
   istick         Boolean          @default(false)
@@ -49,34 +54,35 @@ model IntoArticle {
 }
 
 model ArticleDetails {
-  article_id        Int         @id
-  cover_letter      String      @db.MediumText
-  cover_letter_file String?     @db.VarChar(500)
-  isFunding         String      @db.Text
-  isMaterial        Boolean?
-  materialFile      String?     @db.VarChar(500)
-  isCoding          Boolean?
-  codeFile          String?     @db.VarChar(500)
-  isData            Boolean?
-  dataFile          String?     @db.VarChar(500)
-  isHuman           String?     @db.VarChar(500)
-  isBoradApproval   String?     @db.VarChar(50)
-  approvalDetails   String?     @db.Text
-  manuscript_file   String?     @db.VarChar(500)
-  istick            Boolean     @default(false)
-  Article           IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+  article_id         Int         @id
+  isConflictInterest Boolean
+  conflict           String?     @db.Text
+  isFunded           Boolean
+  funding_info       String?     @db.Text
+  isEthical          Boolean
+  ethical_info       String?     @db.Text
+  isInformedConsent  Boolean
+  consent_info       String?     @db.Text
+  isClinical         Boolean
+  clinical_info      String?     @db.Text
+  copyright          String      @db.VarChar(500)
+  manuscript_file    String?     @db.VarChar(500)
+  istick             Boolean     @default(false)
+  Article            IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
 
   @@map("article_details")
 }
 
 model ArticleAuthor {
-  article_id Int
-  author_id  Int
-  isMain     Boolean     @default(false)
-  status     String?     @db.VarChar(100)
-  istick     Boolean     @default(false)
-  article    IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
-  author     Author      @relation(fields: [author_id], references: [author_id], onDelete: Cascade)
+  article_id   Int
+  author_id    Int
+  isMainUser   Boolean     @default(false)
+  isMain       Boolean     @default(false)
+  status       String?     @db.VarChar(100)
+  contribution String?     @db.VarChar(200)
+  istick       Boolean     @default(false)
+  article      IntoArticle @relation(fields: [article_id], references: [intro_id], onDelete: Cascade)
+  author       Author      @relation(fields: [author_id], references: [author_id], onDelete: Cascade)
 
   @@id([article_id, author_id])
   @@map("article_authors")
