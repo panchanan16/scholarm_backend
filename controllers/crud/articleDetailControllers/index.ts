@@ -5,10 +5,6 @@ import { FilekeyType } from "@/routes/type";
 class ArticleDetailControllers {
   static fileKeys: FilekeyType = {
     keys: [
-      // { name: "cover_letter_file" },
-      // { name: "materialFile" },
-      // { name: "codeFile" },
-      // { name: "dataFile" },
       { name: "manuscript_file" },
     ],
     folder: "articleFiles",
@@ -31,42 +27,6 @@ class ArticleDetailControllers {
         copyright,
         manuscript_file_link,
       } = req.body;
-
-      // const is_Material: boolean =
-      //   isMaterial === "true" || isMaterial === true ? true : false;
-      // const is_coding: boolean =
-      //   isCoding === "true" || isCoding === true ? true : false;
-      // const is_Data: boolean =
-      //   isData === "true" || isData === true ? true : false;
-
-      // const cover_letter_file =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["cover_letter_file"])
-      //     ? req.multiFieldsObject?.["cover_letter_file"][0]
-      //     : cover_letter_file_link;
-      // const materialFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["materialFile"])
-      //     ? req.multiFieldsObject?.["materialFile"][0]
-      //     : material_file_link;
-      // const codeFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["codeFile"])
-      //     ? req.multiFieldsObject?.["codeFile"][0]
-      //     : code_file_link;
-      // const dataFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["dataFile"])
-      //     ? req.multiFieldsObject?.["dataFile"][0]
-      //     : data_file_link;
 
       const manuscript_file =
         req.file ||
@@ -170,7 +130,6 @@ class ArticleDetailControllers {
         isClinical,
         clinical_info,
         copyright,
-        istick,
         manuscript_file_link,
       } = req.body;
 
@@ -182,41 +141,6 @@ class ArticleDetailControllers {
           ? req.multiFieldsObject?.["manuscript_file"][0]
           : manuscript_file_link;
 
-      // const is_Material: boolean =
-      //   isMaterial === "true" || isMaterial === true ? true : false;
-      // const is_coding: boolean =
-      //   isCoding === "true" || isCoding === true ? true : false;
-      // const is_Data: boolean =
-      //   isData === "true" || isData === true ? true : false;
-
-      // const cover_letter_file =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["cover_letter_file"])
-      //     ? req.multiFieldsObject?.["cover_letter_file"][0]
-      //     : cover_letter_file_link;
-      // const materialFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["materialFile"])
-      //     ? req.multiFieldsObject?.["materialFile"][0]
-      //     : material_file_link;
-      // const codeFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["codeFile"])
-      //     ? req.multiFieldsObject?.["codeFile"][0]
-      //     : code_file_link;
-      // const dataFile =
-      //   req.file ||
-      //   (req.files &&
-      //     req.multiFieldsObject &&
-      //     req.multiFieldsObject["dataFile"])
-      //     ? req.multiFieldsObject?.["dataFile"][0]
-      //     : data_file_link;
 
       const updatedArticleDetail = await prisma.articleDetails.update({
         where: { article_id: Number(article_id) },
@@ -233,7 +157,6 @@ class ArticleDetailControllers {
           clinical_info,
           copyright,
           manuscript_file,
-          istick,
         },
       });
       res.status(200).json({
