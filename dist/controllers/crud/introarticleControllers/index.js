@@ -16,7 +16,7 @@ class IntroArticleControllers {
 _a = IntroArticleControllers;
 IntroArticleControllers.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { intro_id, title, abstract, keywords, pages, belong_to, article_status, istick } = req.body;
+        const { intro_id, title, abstract, keywords, pages, belong_to, issueType, specialIssue, article_status, istick } = req.body;
         const InsertionResult = yield app_1.prisma.intoArticle.update({
             where: {
                 intro_id,
@@ -27,6 +27,8 @@ IntroArticleControllers.create = (req, res) => __awaiter(void 0, void 0, void 0,
                 keywords,
                 pages,
                 belong_to,
+                issueType,
+                specialIssue: Number(specialIssue),
                 article_status,
                 istick
             },

@@ -34,11 +34,12 @@ AssignReviewerControllers.create = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 AssignReviewerControllers.findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { article_id } = req.query;
+    const { article_id, round } = req.query;
     try {
         const reviewers = yield app_1.prisma.assignReviewer.findMany({
             where: {
                 article_id: Number(article_id),
+                round: Number(round),
             },
             include: {
                 reviewer: true,
@@ -61,13 +62,14 @@ AssignReviewerControllers.findAll = (req, res) => __awaiter(void 0, void 0, void
 });
 // delete a reviewer assignment
 AssignReviewerControllers.remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { reviewer_id, article_id } = req.query;
+    const { reviewer_id, article_id, round } = req.query;
     try {
         const isDeleted = yield app_1.prisma.assignReviewer.delete({
             where: {
-                reviewer_id_article_id: {
+                reviewer_id_article_id_round: {
                     reviewer_id: Number(reviewer_id),
                     article_id: Number(article_id),
+                    round: Number(round)
                 },
             },
         });

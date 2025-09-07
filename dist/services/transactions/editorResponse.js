@@ -12,15 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateEditorResponseToAssignedTask = updateEditorResponseToAssignedTask;
 const app_1 = require("../../app");
 const client_1 = require("@prisma/client");
-function updateEditorResponseToAssignedTask(article_id, editor_id, status) {
+function updateEditorResponseToAssignedTask(article_id, editor_id, status, round) {
     return __awaiter(this, void 0, void 0, function* () {
         const tracsaction = yield app_1.prisma.$transaction((db) => __awaiter(this, void 0, void 0, function* () {
             // 1. Update the Editors response.
             const isUpdated = yield db.assignEditor.update({
                 where: {
-                    editor_id_article_id: {
+                    editor_id_article_id_round: {
                         article_id: Number(article_id),
                         editor_id: Number(editor_id),
+                        round: Number(round)
                     },
                 },
                 data: {

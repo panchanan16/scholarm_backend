@@ -22,12 +22,13 @@ class AssignEditorToArticle {
 _a = AssignEditorToArticle;
 AssignEditorToArticle.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { editor_id, article_id, editor_email, no_days, email_subject, email_body, } = req.body;
+        const { editor_id, article_id, round, editor_email, no_days, email_subject, email_body, } = req.body;
         const isAssigned = yield app_1.prisma.assignEditor.create({
             data: {
                 editor_id,
                 article_id,
                 no_days,
+                round
             },
         });
         if (isAssigned) {
@@ -87,12 +88,13 @@ AssignEditorToArticle.findAll = (req, res) => __awaiter(void 0, void 0, void 0, 
 // Unassign Editor from Article
 AssignEditorToArticle.remove = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { article_id, editor_id } = req.query;
+        const { article_id, editor_id, round } = req.query;
         const isUnassigned = yield app_1.prisma.assignEditor.delete({
             where: {
-                editor_id_article_id: {
+                editor_id_article_id_round: {
                     article_id: Number(article_id),
                     editor_id: Number(editor_id),
+                    round: Number(round)
                 },
             },
         });

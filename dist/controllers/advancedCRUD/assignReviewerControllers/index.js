@@ -18,8 +18,9 @@ _a = AssignReviewerControllers;
 // Handle status ---
 AssignReviewerControllers.handleStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { article_id, reviewer_id, is_accepted } = req.body;
-        const isStatus = yield (0, reviewerResponse_1.updateReviewerResponseToAssignedTask)(article_id, reviewer_id, is_accepted);
+        const { article_id, reviewer_id, is_accepted, round } = req.body;
+        const isStatus = yield (0, reviewerResponse_1.updateReviewerResponseToAssignedTask)(article_id, reviewer_id, is_accepted, round);
+        // If accepted count for the incoming round is fullfill our requirement.
         const acceptedCount = isStatus.filter((r) => r.is_accepted === "accepted").length;
         res.status(200).json({
             status: true,
@@ -41,7 +42,7 @@ AssignReviewerControllers.handleStatus = (req, res) => __awaiter(void 0, void 0,
 AssignReviewerControllers.recommendation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
     try {
-        const { article_id, reviewer_id, is_under_scope, is_need_revision, editor_comment, comment, is_completed, attach_file_link, reviewerDecision, } = req.body;
+        const { article_id, reviewer_id, is_under_scope, is_need_revision, editor_comment, comment, round, is_completed, attach_file_link, reviewerDecision, } = req.body;
         const attachFile = req.file ||
             (req.files &&
                 req.multiFieldsObject &&
@@ -51,9 +52,10 @@ AssignReviewerControllers.recommendation = (req, res) => __awaiter(void 0, void 
         // check if the reviewer has accepted the assignment
         const isAccepted = yield app_1.prisma.assignReviewer.findUnique({
             where: {
-                reviewer_id_article_id: {
+                reviewer_id_article_id_round: {
                     article_id: Number(article_id),
                     reviewer_id: Number(reviewer_id),
+                    round: Number(round),
                 },
             },
         });
@@ -64,11 +66,13 @@ AssignReviewerControllers.recommendation = (req, res) => __awaiter(void 0, void 
             });
             return;
         }
+        // Check if the incoming round number has total review enough to updated status
         const isUpdated = yield app_1.prisma.assignReviewer.update({
             where: {
-                reviewer_id_article_id: {
+                reviewer_id_article_id_round: {
                     article_id: Number(article_id),
                     reviewer_id: Number(reviewer_id),
+                    round: Number(round),
                 },
             },
             data: {

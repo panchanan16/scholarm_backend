@@ -18,9 +18,8 @@ class AssignEditorControllers {
 _a = AssignEditorControllers;
 AssignEditorControllers.handleStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { article_id, editor_id, status } = req.body;
-        const isUpdated = yield (0, editorResponse_1.updateEditorResponseToAssignedTask)(article_id, editor_id, status);
-        console.log(isUpdated);
+        const { article_id, editor_id, round, status } = req.body;
+        const isUpdated = yield (0, editorResponse_1.updateEditorResponseToAssignedTask)(article_id, editor_id, status, round);
         res.status(200).json({
             status: true,
             data: isUpdated,

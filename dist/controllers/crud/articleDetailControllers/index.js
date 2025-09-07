@@ -16,68 +16,36 @@ class ArticleDetailControllers {
 _a = ArticleDetailControllers;
 ArticleDetailControllers.fileKeys = {
     keys: [
-        { name: "cover_letter_file" },
-        { name: "materialFile" },
-        { name: "codeFile" },
-        { name: "dataFile" },
         { name: "manuscript_file" },
     ],
     folder: "articleFiles",
 };
 // Add your methods here
 ArticleDetailControllers.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d, _e, _f;
+    var _b;
     try {
         const article_id = Number(req.body.article_id);
-        const { cover_letter, cover_letter_file_link, isFunding, isMaterial, material_file_link, isCoding, code_file_link, isData, data_file_link, isHuman, isBoradApproval, approvalDetails, manuscript_file_link, } = req.body;
-        const is_Material = isMaterial === "true" || isMaterial === true ? true : false;
-        const is_coding = isCoding === "true" || isCoding === true ? true : false;
-        const is_Data = isData === "true" || isData === true ? true : false;
-        const cover_letter_file = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["cover_letter_file"])
-            ? (_b = req.multiFieldsObject) === null || _b === void 0 ? void 0 : _b["cover_letter_file"][0]
-            : cover_letter_file_link;
-        const materialFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["materialFile"])
-            ? (_c = req.multiFieldsObject) === null || _c === void 0 ? void 0 : _c["materialFile"][0]
-            : material_file_link;
-        const codeFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["codeFile"])
-            ? (_d = req.multiFieldsObject) === null || _d === void 0 ? void 0 : _d["codeFile"][0]
-            : code_file_link;
-        const dataFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["dataFile"])
-            ? (_e = req.multiFieldsObject) === null || _e === void 0 ? void 0 : _e["dataFile"][0]
-            : data_file_link;
+        const { isConflictInterest, conflict, isFunded, funding_info, isEthical, ethical_info, isInformedConsent, consent_info, isClinical, clinical_info, copyright, manuscript_file_link, } = req.body;
         const manuscript_file = req.file ||
             (req.files &&
                 req.multiFieldsObject &&
                 req.multiFieldsObject["manuscript_file"])
-            ? (_f = req.multiFieldsObject) === null || _f === void 0 ? void 0 : _f["manuscript_file"][0]
+            ? (_b = req.multiFieldsObject) === null || _b === void 0 ? void 0 : _b["manuscript_file"][0]
             : manuscript_file_link;
         const articleDetail = yield app_1.prisma.articleDetails.create({
             data: {
                 article_id,
-                cover_letter,
-                cover_letter_file,
-                isFunding,
-                isMaterial: is_Material,
-                materialFile,
-                isCoding: is_coding,
-                codeFile,
-                isData: is_Data,
-                dataFile,
-                isHuman,
-                isBoradApproval,
-                approvalDetails,
+                isConflictInterest,
+                conflict,
+                isFunded,
+                funding_info,
+                isEthical,
+                ethical_info,
+                isInformedConsent,
+                consent_info,
+                isClinical,
+                clinical_info,
+                copyright,
                 manuscript_file,
             },
         });
@@ -144,52 +112,30 @@ ArticleDetailControllers.findOne = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 ArticleDetailControllers.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d, _e;
+    var _b;
     try {
-        const { article_id, cover_letter, cover_letter_file_link, isFunding, isMaterial, material_file_link, isCoding, code_file_link, isData, data_file_link, isHuman, isBoradApproval, approvalDetails, istick, } = req.body;
-        const is_Material = isMaterial === "true" || isMaterial === true ? true : false;
-        const is_coding = isCoding === "true" || isCoding === true ? true : false;
-        const is_Data = isData === "true" || isData === true ? true : false;
-        const cover_letter_file = req.file ||
+        const { article_id, isConflictInterest, conflict, isFunded, funding_info, isEthical, ethical_info, isInformedConsent, consent_info, isClinical, clinical_info, copyright, manuscript_file_link, } = req.body;
+        const manuscript_file = req.file ||
             (req.files &&
                 req.multiFieldsObject &&
-                req.multiFieldsObject["cover_letter_file"])
-            ? (_b = req.multiFieldsObject) === null || _b === void 0 ? void 0 : _b["cover_letter_file"][0]
-            : cover_letter_file_link;
-        const materialFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["materialFile"])
-            ? (_c = req.multiFieldsObject) === null || _c === void 0 ? void 0 : _c["materialFile"][0]
-            : material_file_link;
-        const codeFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["codeFile"])
-            ? (_d = req.multiFieldsObject) === null || _d === void 0 ? void 0 : _d["codeFile"][0]
-            : code_file_link;
-        const dataFile = req.file ||
-            (req.files &&
-                req.multiFieldsObject &&
-                req.multiFieldsObject["dataFile"])
-            ? (_e = req.multiFieldsObject) === null || _e === void 0 ? void 0 : _e["dataFile"][0]
-            : data_file_link;
+                req.multiFieldsObject["manuscript_file"])
+            ? (_b = req.multiFieldsObject) === null || _b === void 0 ? void 0 : _b["manuscript_file"][0]
+            : manuscript_file_link;
         const updatedArticleDetail = yield app_1.prisma.articleDetails.update({
             where: { article_id: Number(article_id) },
             data: {
-                cover_letter,
-                cover_letter_file,
-                isFunding,
-                isMaterial: is_Material,
-                materialFile,
-                isCoding: is_coding,
-                codeFile,
-                isData: is_Data,
-                dataFile,
-                isHuman,
-                isBoradApproval,
-                approvalDetails,
-                istick,
+                isConflictInterest,
+                conflict,
+                isFunded,
+                funding_info,
+                isEthical,
+                ethical_info,
+                isInformedConsent,
+                consent_info,
+                isClinical,
+                clinical_info,
+                copyright,
+                manuscript_file,
             },
         });
         res.status(200).json({

@@ -11,18 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("../../../app");
+const createPasswordHash_1 = require("../../../utils/createPasswordHash");
 class AuthorController {
 }
 _a = AuthorController;
 AuthorController.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { author_email, author_fname, author_lname, author_designation } = req.body;
+        const { author_email, author_fname, author_lname, author_designation, author_password } = req.body;
+        const hashedPassword = yield (0, createPasswordHash_1.encryptPassword)(author_password);
         const user = yield app_1.prisma.author.create({
             data: {
                 author_email,
                 author_fname,
                 author_lname,
                 author_designation,
+                author_password: hashedPassword
             },
         });
         res.status(200).json({

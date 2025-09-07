@@ -11,18 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("../../../app");
+const createPasswordHash_1 = require("../../../utils/createPasswordHash");
 class ReviewerControllers {
 }
 _a = ReviewerControllers;
 ReviewerControllers.create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { reviewer_name, reviewer_email, reviewer_designation, is_active } = req.body;
+        const { reviewer_name, reviewer_email, reviewer_designation, is_active, reviewer_password, } = req.body;
+        const hashedPassword = yield (0, createPasswordHash_1.encryptPassword)(reviewer_password);
         const reviewer = yield app_1.prisma.reviewer.create({
             data: {
                 reviewer_name,
                 reviewer_email,
                 reviewer_designation,
                 is_active,
+                reviewer_password: hashedPassword,
             },
         });
         res.status(200).json({
@@ -40,7 +43,7 @@ ReviewerControllers.create = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 ReviewerControllers.update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { reviewer_id, reviewer_name, reviewer_email, reviewer_designation, is_active } = req.body;
+        const { reviewer_id, reviewer_name, reviewer_email, reviewer_designation, is_active, } = req.body;
         const reviewer = yield app_1.prisma.reviewer.update({
             where: { reviewer_id: Number(reviewer_id) },
             data: {

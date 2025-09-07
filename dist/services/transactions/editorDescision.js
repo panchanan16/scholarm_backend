@@ -15,14 +15,15 @@ const client_1 = require("@prisma/client");
 function updateEditorDesicionToAssignedTask(data, editorFile) {
     return __awaiter(this, void 0, void 0, function* () {
         const tracsaction = yield app_1.prisma.$transaction((db) => __awaiter(this, void 0, void 0, function* () {
-            const { to_show, article_id, editor_id, comments, main_decision, is_completed } = data;
+            const { to_show, article_id, editor_id, round, comments, main_decision, is_completed } = data;
             const toShow = JSON.stringify(to_show === null || to_show === void 0 ? void 0 : to_show.join(""));
             // check if the editor has accepted the assignment
             const isAccepted = yield db.assignEditor.findUnique({
                 where: {
-                    editor_id_article_id: {
+                    editor_id_article_id_round: {
                         article_id: Number(article_id),
                         editor_id: Number(editor_id),
+                        round: Number(round)
                     },
                 },
             });
@@ -31,9 +32,10 @@ function updateEditorDesicionToAssignedTask(data, editorFile) {
             }
             const isUpdated = yield db.assignEditor.update({
                 where: {
-                    editor_id_article_id: {
+                    editor_id_article_id_round: {
                         article_id: Number(article_id),
                         editor_id: Number(editor_id),
+                        round: Number(round)
                     },
                 },
                 data: {

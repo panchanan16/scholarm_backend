@@ -14,11 +14,13 @@ const app_1 = require("../../app");
 const client_1 = require("@prisma/client");
 function assignReviwerAndUpdateStatus(reviewers) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { reviewers: reviewerList } = reviewers;
+        const { reviewers: reviewerList, round } = reviewers;
         const trasaction = yield app_1.prisma.$transaction((con) => __awaiter(this, void 0, void 0, function* () {
+            // checking if the article already has reviewer Assigned ---
             const isNeedStatusUpdate = yield con.assignReviewer.findMany({
                 where: {
                     article_id: reviewerList[0].article_id,
+                    round: round,
                 },
             });
             // --- Logic ---
@@ -29,7 +31,12 @@ function assignReviwerAndUpdateStatus(reviewers) {
             const isAssigned = yield con.assignReviewer.createMany({
                 data: reviewerList,
             });
-            if (!isNeedStatusUpdate.length) {
+            const currentArticleStatus = yield con.intoArticle.findUnique({
+                where: {
+                    intro_id: reviewerList[0].article_id,
+                },
+            });
+            if (!isNeedStatusUpdate.length || (currentArticleStatus === null || currentArticleStatus === void 0 ? void 0 : currentArticleStatus.article_status) === 'needtoassignreviewer') {
                 const isStatusUpdated = yield con.intoArticle.update({
                     where: { intro_id: reviewerList[0].article_id },
                     data: { article_status: client_1.ArticleStatus.reviewerinvited },
