@@ -3,15 +3,14 @@ import AdminAuthControllers from '@/controllers/auth/admin'
 import EditorAuthControllers from "@/controllers/auth/editor";
 import ReviewerAuthControllers from "@/controllers/auth/reviewer";
 import AuthorAuthControllers from "@/controllers/auth/author";
+import SystemAdminAuthControllers from '@/controllers/auth/superadmin'
 
 const authRoute = Router()
-
 
 // admin Auth apis ---
 authRoute.post("/admin/login", AdminAuthControllers.login);
 authRoute.post("/admin/logout", AdminAuthControllers.logout);
 authRoute.put("/admin/updatepassword", AdminAuthControllers.updatePassword);
-
 
 
 // editor loginn added ---
@@ -32,6 +31,13 @@ authRoute.put("/reviewer/updatepassword", ReviewerAuthControllers.updatePassword
 authRoute.post("/author/login", AuthorAuthControllers.login);
 authRoute.post("/author/logout", AuthorAuthControllers.logout);
 authRoute.put("/author/updatepassword", AuthorAuthControllers.updatePassword);
+
+
+
+// SystemAdmin Auth apis ---
+authRoute.post("/systemadmin/login", SystemAdminAuthControllers.login);
+authRoute.post("/systemadmin/logout", SystemAdminAuthControllers.logout);
+authRoute.put("/systemadmin/updatepassword", SystemAdminAuthControllers.updatePassword);
 
 
 

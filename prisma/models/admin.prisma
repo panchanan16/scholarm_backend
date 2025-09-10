@@ -1,7 +1,17 @@
 model SuperAdmin {
   admin_id       Int           @id @default(autoincrement())
+  journal_id     Int
   admin_email    String        @unique
   admin_name     String
   admin_password String?       @db.VarChar(500)
+  Journal        Journal       @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
   AssignAdmin    AssignAdmin[]
+}
+
+
+model SystemSuperAdmin {
+  system_admin_id       Int           @id @default(autoincrement())
+  system_admin_email    String        @unique
+  system_admin_name     String
+  system_admin_password String?       @db.VarChar(500)
 }

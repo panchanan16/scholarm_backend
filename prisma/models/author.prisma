@@ -1,10 +1,12 @@
 model Author {
   author_id          Int             @id @default(autoincrement())
+  journal_id         Int
   author_email       String          @unique
   author_fname       String?
   author_lname       String?
   author_designation String?
   author_password    String?         @db.VarChar(500)
+  Journal            Journal         @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
   IntoArticle        IntoArticle[]
   ArticleAuthor      ArticleAuthor[]
 }

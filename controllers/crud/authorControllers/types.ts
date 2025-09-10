@@ -4,5 +4,6 @@ export interface ReqBody {
   author_fname: string;
   author_lname: string;
   author_designation: string;
-  author_password: string
+  author_password: string;
+  journal_id: number
 }

@@ -11,10 +11,12 @@ class ReviewerControllers {
         reviewer_designation,
         is_active,
         reviewer_password,
+        journal_id
       } = req.body;
       const hashedPassword = await encryptPassword(reviewer_password);
       const reviewer = await prisma.reviewer.create({
         data: {
+          journal_id,
           reviewer_name,
           reviewer_email,
           reviewer_designation,

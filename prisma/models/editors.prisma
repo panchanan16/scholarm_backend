@@ -1,8 +1,10 @@
 model Editor {
   editor_id       Int            @id @default(autoincrement())
+  journal_id      Int
   editor_name     String
   editor_email    String         @unique
   is_active       Boolean        @default(true)
   editor_password String?        @db.VarChar(500)
+  Journal         Journal        @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
   AssignEditor    AssignEditor[]
 }

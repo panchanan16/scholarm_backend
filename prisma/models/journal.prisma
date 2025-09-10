@@ -4,11 +4,17 @@ model Journal {
   journal_issn     String          @db.VarChar(100)
   journal_eissn    String          @db.VarChar(100)
   publication_type String          @db.VarChar(300)
+  journal_code     String?         @unique
   journal_name     String          @db.VarChar(500)
   is_active        Boolean         @default(true)
   created_at       DateTime        @default(now())
   JOurnalVolume    JournalVolume[]
   JournalIssue     JournalIssue[]
+  IntoArticle      IntoArticle[]
+  Author           Author[]
+  Editor           Editor[]
+  SuperAdmin       SuperAdmin[]
+  reviewer         Reviewer[]
 }
 
 model JournalVolume {

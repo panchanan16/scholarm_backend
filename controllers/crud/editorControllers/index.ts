@@ -5,11 +5,12 @@ import { encryptPassword } from "@/utils/createPasswordHash";
 class EditorControllers {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { editor_email, editor_name, is_active, editor_password } =
+      const { editor_email, editor_name, is_active, editor_password,journal_id } =
         req.body;
       const hashedPassword = await encryptPassword(editor_password)
       const editor = await prisma.editor.create({
         data: {
+          journal_id: journal_id,
           editor_name,
           editor_email,
           is_active,

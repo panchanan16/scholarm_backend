@@ -22,11 +22,9 @@ enum ArticleStatus {
   revisiondue
 }
 
-// specialIssue: IntroDataObject ? IntroDataObject.specialIssue ? IntroDataObject.specialIssue : null : null,
-// issueType: IntroDataObject ? (IntroDataObject.issueType ? IntroDataObject.issueType : "regular") : "regular"
-
 model IntoArticle {
   intro_id       Int              @id @default(autoincrement())
+  journal_id     Int
   case_number    String?          @unique
   type           String
   title          String?          @db.VarChar(500)
@@ -42,6 +40,7 @@ model IntoArticle {
   istick         Boolean          @default(false)
   mainAuthor     Author           @relation(fields: [main_author], references: [author_id], onDelete: Cascade)
   revision_round Int              @default(0)
+  Journal        Journal          @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
   articleAuthors ArticleAuthor[]
   ArticleDetails ArticleDetails[]
   AssignEditor   AssignEditor[]

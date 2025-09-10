@@ -1,9 +1,11 @@
 model Reviewer {
   reviewer_id          Int              @id @default(autoincrement())
+  journal_id           Int
   reviewer_name        String
   reviewer_email       String           @unique
   reviewer_designation String?
   is_active            Boolean          @default(true)
   reviewer_password    String?          @db.VarChar(500)
+  Journal              Journal          @relation(fields: [journal_id], references: [journal_id], onDelete: Cascade)
   AssignReviewer       AssignReviewer[]
 }

@@ -226,7 +226,7 @@ class AdminAuthControllers {
       res.status(200).json({
         status: true,
         data: updatedAdmin,
-        message: "Password updated successfully!",
+        message: "Publisher password updated successfully!",
       });
     } catch (error) {
       console.error(error);

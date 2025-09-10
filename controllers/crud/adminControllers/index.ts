@@ -4,10 +4,11 @@ import { ReqBody } from "./types";
 class AdminController {
   static create: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { admin_email, admin_name } = req.body;
+      const { admin_email, admin_name, journal_id } = req.body;
 
       const admin = await prisma.superAdmin.create({
         data: {
+          journal_id: Number(journal_id),
           admin_email,
           admin_name,
         },
@@ -16,14 +17,14 @@ class AdminController {
       res.status(200).json({
         status: true,
         data: admin,
-        message: "SuperAdmin created successfully!",
+        message: "Publisher created successfully!",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         status: false,
         error,
-        message: "SuperAdmin creation failed",
+        message: "Publisher creation failed",
       });
     }
   };
@@ -35,14 +36,14 @@ class AdminController {
       res.status(200).json({
         status: true,
         data: admins,
-        message: "SuperAdmins fetched successfully!",
+        message: "Publishers fetched successfully!",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         status: false,
         error,
-        message: "Fetching SuperAdmins failed",
+        message: "Fetching Publishers failed",
       });
     }
   };
@@ -58,7 +59,7 @@ class AdminController {
       if (!admin) {
         res.status(404).json({
           status: false,
-          message: "SuperAdmin not found",
+          message: "Publisher not found",
         });
         return;
       }
@@ -66,14 +67,14 @@ class AdminController {
       res.status(200).json({
         status: true,
         data: admin,
-        message: "SuperAdmin fetched successfully!",
+        message: "Publisher fetched successfully!",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         status: false,
         error,
-        message: "Fetching SuperAdmin failed",
+        message: "Fetching Publisher failed",
       });
     }
   };
@@ -94,14 +95,14 @@ class AdminController {
       res.status(200).json({
         status: true,
         data: admin,
-        message: "SuperAdmin updated successfully!",
+        message: "Publisher updated successfully!",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         status: false,
         error,
-        message: "Updating SuperAdmin failed",
+        message: "Updating Publisher failed",
       });
     }
   };
@@ -116,14 +117,14 @@ class AdminController {
 
       res.status(200).json({
         status: true,
-        message: "SuperAdmin deleted successfully!",
+        message: "Publisher deleted successfully!",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
         status: false,
         error,
-        message: "Deleting SuperAdmin failed",
+        message: "Deleting Publisher failed",
       });
     }
   };

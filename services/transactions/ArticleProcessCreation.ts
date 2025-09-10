@@ -8,12 +8,14 @@ export async function InitiateArticleIntroSections(
     type,
     sub_class,
     main_author,
+    journal_id
   } = articleDetails;
 
   const tracsaction = await prisma.$transaction(async (db) => {
     // 1. Update the Editors response.
     const IntiatedArticle = await db.intoArticle.create({
       data: {
+        journal_id,
         type,
         sub_class,
         main_author,

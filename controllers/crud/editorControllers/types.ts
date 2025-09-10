@@ -3,5 +3,6 @@ export type ReqBody = {
   editor_name: string;
   editor_email: string;
   is_active: boolean;
-  editor_password: string
+  editor_password: string;
+  journal_id: number
 };
