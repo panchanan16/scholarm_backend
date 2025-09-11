@@ -4,6 +4,7 @@ import AssignReviewerControllers from "@/controllers/advancedCRUD/assignReviewer
 import { uploadMultipleFields } from "@/middleware/fileUpload";
 import ArticleAuthorController from "@/controllers/advancedCRUD/articleAuthorControllers";
 import ManuscriptControllers from "@/controllers/advancedCRUD/manuscriptControllers";
+import JournalControllers from "@/controllers/advancedCRUD/journalControllers";
 
 const coreRoute = Router();
 
@@ -38,6 +39,12 @@ coreRoute.get("/manuscript/findArticleForView", ManuscriptControllers.findArticl
 coreRoute.get("/manuscript/findAllByEditor", ManuscriptControllers.findAllByEditorId);
 coreRoute.get("/manuscript/findAllByReviewer", ManuscriptControllers.findAllByReviewerId);
 coreRoute.post("/manuscript/findAllByAuthor", ManuscriptControllers.findAllByAuthorId);
+
+
+
+// Jounral apis
+coreRoute.get("/journal/findOneByCode", JournalControllers.findOneByCode);
+coreRoute.post("/journal/findByfilter", JournalControllers.findAllbyFilter);
 
 
 

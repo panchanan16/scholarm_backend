@@ -6,4 +6,5 @@ export interface ReqBody {
   new_password?: string;
   confirm_password?: string;
   admin_name?: string;
+  journal_id: number;
 }

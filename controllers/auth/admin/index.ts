@@ -7,7 +7,15 @@ class AdminAuthControllers {
   // Login method
   static login: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, journal_id } = req.body;
+
+      if (!journal_id) {
+        res.status(400).json({
+          status: false,
+          message: "No valid journal is found!",
+        });
+        return;
+      }
 
       // Validate required fields
       if (!email || !password) {
@@ -20,7 +28,10 @@ class AdminAuthControllers {
 
       // Find admin by email
       const admin = await prisma.superAdmin.findUnique({
-        where: { admin_email: email },
+        where: { admin_email: email, journal_id: journal_id },
+        include: {
+          Journal: true
+        },
       });
 
       if (!admin) {
@@ -54,6 +65,7 @@ class AdminAuthControllers {
       // Generate JWT tokens
       const accessToken = jwt.sign(
         { 
+          journal_id: journal_id,
           id: admin.admin_id, 
           email: admin.admin_email,
           role: 'admin'
@@ -64,6 +76,7 @@ class AdminAuthControllers {
 
       const refreshToken = jwt.sign(
         { 
+          journal_id: journal_id,
           id: admin.admin_id, 
           email: admin.admin_email 
         },

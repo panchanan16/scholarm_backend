@@ -8,7 +8,7 @@ class ManuscriptControllers {
     req,
     res
   ) => {
-    const { status, type } = req.query;
+    const { status, type, journal } = req.query;
     try {
       const manuscripts = await prisma.intoArticle.findMany({
         where: {
@@ -18,6 +18,7 @@ class ManuscriptControllers {
               revision_round: type === "revision" ? { not: 0 } : 0,
             }),
           ...(status && { article_status: status }),
+          journal_id: Number(journal)
         },
         include: {
           articleAuthors: {

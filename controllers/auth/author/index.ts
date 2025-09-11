@@ -3,10 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { ReqBody } from "./types";
 
-
 class AuthorAuthControllers {
   // Helper method to format author name
-  private static formatAuthorName(fname: string | null, lname: string | null): string {
+  private static formatAuthorName(
+    fname: string | null,
+    lname: string | null
+  ): string {
     const firstName = fname?.trim() || "";
     const lastName = lname?.trim() || "";
     return `${firstName} ${lastName}`.trim() || "Unknown Author";
@@ -15,7 +17,15 @@ class AuthorAuthControllers {
   // Login method
   static login: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, journal_id } = req.body;
+
+      if (!journal_id) {
+        res.status(400).json({
+          status: false,
+          message: "Invalid Authentication!",
+        });
+        return;
+      }
 
       // Validate required fields
       if (!email || !password) {
@@ -28,7 +38,10 @@ class AuthorAuthControllers {
 
       // Find author by email
       const author = await prisma.author.findUnique({
-        where: { author_email: email },
+        where: { author_email: email, journal_id: journal_id },
+        include:{
+          Journal:true
+        }
       });
 
       if (!author) {
@@ -43,14 +56,18 @@ class AuthorAuthControllers {
       if (!author.author_password) {
         res.status(401).json({
           status: false,
-          message: "Password not set for this account. Please contact administrator.",
+          message:
+            "Password not set for this account. Please contact administrator.",
         });
         return;
       }
 
       // Verify password
-      const isPasswordValid = await bcrypt.compare(password, author.author_password);
-      
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        author.author_password
+      );
+
       if (!isPasswordValid) {
         res.status(401).json({
           status: false,
@@ -61,19 +78,21 @@ class AuthorAuthControllers {
 
       // Generate JWT tokens
       const accessToken = jwt.sign(
-        { 
-          id: author.author_id, 
+        {
+          journal_id: journal_id,
+          id: author.author_id,
           email: author.author_email,
-          role: 'author'
+          role: "author",
         },
         process.env.JWT_SECRET || "your-secret-key",
         { expiresIn: "15m" }
       );
 
       const refreshToken = jwt.sign(
-        { 
-          id: author.author_id, 
-          email: author.author_email 
+        {
+          journal_id: journal_id,
+          id: author.author_id,
+          email: author.author_email,
         },
         process.env.JWT_REFRESH_SECRET || "your-refresh-secret-key",
         { expiresIn: "7d" }
@@ -83,23 +102,26 @@ class AuthorAuthControllers {
       const { author_password: _, ...authorData } = author;
       const authorWithName = {
         ...authorData,
-        author_name: this.formatAuthorName(author.author_fname, author.author_lname)
+        author_name: this.formatAuthorName(
+          author.author_fname,
+          author.author_lname
+        ),
       };
 
       // Set refresh token as httpOnly cookie
-    //   res.cookie('refreshToken', refreshToken, {
-    //     httpOnly: true,
-    //     secure: process.env.NODE_ENV === 'production',
-    //     sameSite: 'strict',
-    //     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    //   });
+      //   res.cookie('refreshToken', refreshToken, {
+      //     httpOnly: true,
+      //     secure: process.env.NODE_ENV === 'production',
+      //     sameSite: 'strict',
+      //     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      //   });
 
       res.status(200).json({
         status: true,
         data: {
           user: {
             ...authorWithName,
-            role: 'author'
+            role: "author",
           },
           refreshToken,
           accessToken,
@@ -120,7 +142,7 @@ class AuthorAuthControllers {
   static logout: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
       // Clear the refresh token cookie
-      res.clearCookie('refreshToken');
+      res.clearCookie("refreshToken");
 
       // In a more advanced implementation, you might want to:
       // 1. Add the JWT to a blacklist/revocation list
@@ -142,7 +164,10 @@ class AuthorAuthControllers {
   };
 
   // Update password method
-  static updatePassword: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+  static updatePassword: MyRequestHandlerFn<ReqBody, ReqBody> = async (
+    req,
+    res
+  ) => {
     try {
       const id = Number(req.body.author_id);
       const { current_password, new_password, confirm_password } = req.body;
@@ -151,7 +176,8 @@ class AuthorAuthControllers {
       if (!current_password || !new_password || !confirm_password) {
         res.status(400).json({
           status: false,
-          message: "Current password, new password, and confirm password are required",
+          message:
+            "Current password, new password, and confirm password are required",
         });
         return;
       }
@@ -188,34 +214,34 @@ class AuthorAuthControllers {
       }
 
       // Check if current password exists and is correct
-    //   if (!author.author_password) {
-    //     res.status(400).json({
-    //       status: false,
-    //       message: "No password set for this account",
-    //     });
-    //     return;
-    //   }
+      //   if (!author.author_password) {
+      //     res.status(400).json({
+      //       status: false,
+      //       message: "No password set for this account",
+      //     });
+      //     return;
+      //   }
 
-    //   const isCurrentPasswordValid = await bcrypt.compare(current_password, author.author_password);
-      
-    //   if (!isCurrentPasswordValid) {
-    //     res.status(401).json({
-    //       status: false,
-    //       message: "Current password is incorrect",
-    //     });
-    //     return;
-    //   }
+      //   const isCurrentPasswordValid = await bcrypt.compare(current_password, author.author_password);
+
+      //   if (!isCurrentPasswordValid) {
+      //     res.status(401).json({
+      //       status: false,
+      //       message: "Current password is incorrect",
+      //     });
+      //     return;
+      //   }
 
       // Check if new password is different from current password
-    //   const isSamePassword = await bcrypt.compare(new_password, author.author_password);
-      
-    //   if (isSamePassword) {
-    //     res.status(400).json({
-    //       status: false,
-    //       message: "New password must be different from current password",
-    //     });
-    //     return;
-    //   }
+      //   const isSamePassword = await bcrypt.compare(new_password, author.author_password);
+
+      //   if (isSamePassword) {
+      //     res.status(400).json({
+      //       status: false,
+      //       message: "New password must be different from current password",
+      //     });
+      //     return;
+      //   }
 
       // Hash the new password
       const saltRounds = 12;
@@ -240,7 +266,10 @@ class AuthorAuthControllers {
       // Add formatted name to response
       const authorWithName = {
         ...updatedAuthor,
-        author_name: this.formatAuthorName(updatedAuthor.author_fname, updatedAuthor.author_lname)
+        author_name: this.formatAuthorName(
+          updatedAuthor.author_fname,
+          updatedAuthor.author_lname
+        ),
       };
 
       res.status(200).json({
@@ -259,7 +288,10 @@ class AuthorAuthControllers {
   };
 
   // Set initial password method (for first-time setup)
-  static setPassword: MyRequestHandlerFn<ReqBody, ReqBody> = async (req, res) => {
+  static setPassword: MyRequestHandlerFn<ReqBody, ReqBody> = async (
+    req,
+    res
+  ) => {
     try {
       const id = Number(req.query.author_id);
       const { new_password, confirm_password } = req.body;
@@ -335,7 +367,10 @@ class AuthorAuthControllers {
       // Add formatted name to response
       const authorWithName = {
         ...updatedAuthor,
-        author_name: this.formatAuthorName(updatedAuthor.author_fname, updatedAuthor.author_lname)
+        author_name: this.formatAuthorName(
+          updatedAuthor.author_fname,
+          updatedAuthor.author_lname
+        ),
       };
 
       res.status(200).json({
@@ -394,10 +429,10 @@ class AuthorAuthControllers {
 
       // Generate new access token
       const newAccessToken = jwt.sign(
-        { 
-          author_id: author.author_id, 
+        {
+          author_id: author.author_id,
           author_email: author.author_email,
-          role: 'author'
+          role: "author",
         },
         process.env.JWT_SECRET || "your-secret-key",
         { expiresIn: "15m" }
@@ -419,8 +454,6 @@ class AuthorAuthControllers {
       });
     }
   };
-
-
 }
 
 export default AuthorAuthControllers;

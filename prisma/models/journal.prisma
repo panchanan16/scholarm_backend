@@ -1,6 +1,6 @@
 model Journal {
   journal_id       Int             @id @default(autoincrement())
-  journal_type     String          @db.VarChar(300)
+  journal_type     Json
   journal_issn     String          @db.VarChar(100)
   journal_eissn    String          @db.VarChar(100)
   publication_type String          @db.VarChar(300)

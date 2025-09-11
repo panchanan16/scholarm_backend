@@ -6,4 +6,5 @@ export interface ReqBody {
   author_designation: string;
   author_password: string;
   journal_id: number
+  journal?: number
 }

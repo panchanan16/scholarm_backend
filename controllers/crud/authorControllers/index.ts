@@ -68,7 +68,11 @@ class AuthorController {
 
   static findAll: MyRequestHandlerFn<ReqBody> = async (req, res) => {
     try {
-      const authors = await prisma.author.findMany();
+    const authors = await prisma.author.findMany({
+      where: {
+        ...(req.query.journal && { journal_id: Number(req.query.journal) })
+      }
+    });
       res.status(200).json({
         status: true,
         data: authors,

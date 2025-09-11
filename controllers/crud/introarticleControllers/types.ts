@@ -19,6 +19,7 @@ export enum ArticleStatus {
 }
 
 export type IntroArticleInput = {
+  journal_id: number;
   intro_id?: number;
   type: string;
   title: string;

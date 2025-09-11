@@ -5,6 +5,7 @@ class IntroArticleControllers {
   static create: MyRequestHandlerFn<IntroArticleInput> = async (req, res) => {
     try {
       const {
+        journal_id,
         intro_id,
         title,
         abstract,
@@ -22,6 +23,7 @@ class IntroArticleControllers {
           intro_id,
         },
         data: {
+          journal_id,
           title,          
           abstract,
           keywords,

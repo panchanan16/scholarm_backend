@@ -11,4 +11,5 @@ export interface ReqBody {
     processed: string,
     disposal: string,
     type: string | undefined
+    journal: number
 }
